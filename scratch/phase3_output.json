@@ -1,0 +1,78 @@
+{
+    "market_context": {
+        "regime": "risk_off",
+        "nifty_close": 24119.30078125,
+        "vix": 18.299999237060547,
+        "fii_net": -8047.860000000001,
+        "us_futures_change": 0.29283288896571213,
+        "nifty_5d_return": 0.9262366426250945,
+        "event_flag": "none",
+        "regime_narrative": ""
+    },
+    "active_setups": [
+        "value_breakout",
+        "momentum_pullback",
+        "quality_compounder"
+    ],
+    "risk_modifier": 1.0,
+    "news_sentiment": {
+        "TCS.NS": {
+            "sentiment": "neutral",
+            "events": [],
+            "articles_found": 0
+        },
+        "RELIANCE.NS": {
+            "sentiment": "neutral",
+            "events": [],
+            "articles_found": 0
+        },
+        "HDFCBANK.NS": {
+            "sentiment": "neutral",
+            "events": [],
+            "articles_found": 0
+        }
+    },
+    "thesis": {},
+    "trades": [
+        {
+            "ticker": "RELIANCE.NS",
+            "setup": "value_breakout",
+            "entry": 1464.7,
+            "sl": 1416.97,
+            "target": 1560.16,
+            "qty": 34,
+            "risk_per_share": 47.73,
+            "total_risk": 1622.89,
+            "expected_R": 2.0,
+            "kelly_f": 0.5,
+            "score": 1.5
+        },
+        {
+            "ticker": "TCS.NS",
+            "setup": "value_breakout",
+            "entry": 2430.5,
+            "sl": 2336.86,
+            "target": 2617.79,
+            "qty": 20,
+            "risk_per_share": 93.64,
+            "total_risk": 1872.86,
+            "expected_R": 2.0,
+            "kelly_f": 0.5,
+            "score": 1.5
+        },
+        {
+            "ticker": "HDFCBANK.NS",
+            "setup": "value_breakout",
+            "entry": 781.1,
+            "sl": 755.6,
+            "target": 832.1,
+            "qty": 64,
+            "risk_per_share": 25.5,
+            "total_risk": 1632.0,
+            "expected_R": 2.0,
+            "kelly_f": 0.5,
+            "score": 1.5
+        }
+    ],
+    "next_agent": "paper_executor"
+}
