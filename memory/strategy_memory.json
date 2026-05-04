@@ -1,0 +1,28 @@
+{
+    "setups": {
+        "value_breakout": {
+            "trades": 0,
+            "wins": 0,
+            "weight": 0.5,
+            "notes": ""
+        },
+        "momentum_pullback": {
+            "trades": 0,
+            "wins": 0,
+            "weight": 0.5,
+            "notes": ""
+        },
+        "quality_compounder": {
+            "trades": 0,
+            "wins": 0,
+            "weight": 0.5,
+            "notes": ""
+        }
+    },
+    "regime_multipliers": {
+        "risk_on": 1.0,
+        "risk_off": 0.5,
+        "high_vix": 0.3
+    },
+    "special_events": []
+}
