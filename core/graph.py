@@ -12,6 +12,7 @@ from agents.risk_sizer import run_risk_sizer
 from agents.validator_node import run_validator
 from agents.paper_executor import run_paper_executor
 from agents.eod_reporter import run_eod_reporter
+from agents.rl_updater import run_rl_updater
 
 def _validator_router(state: dict) -> str:
     """Routes from validator: retry thesis if hallucination, else execute."""
@@ -75,13 +76,15 @@ def build_premarket_graph():
 def build_eod_graph():
     """
     Builds the EOD LangGraph:
-    START → eod_reporter → END
+    START → eod_reporter → rl_updater → END
     """
     graph = StateGraph(dict)
 
     graph.add_node("eod_reporter", run_eod_reporter)
+    graph.add_node("rl_updater", run_rl_updater)
 
     graph.set_entry_point("eod_reporter")
-    graph.add_edge("eod_reporter", END)
+    graph.add_edge("eod_reporter", "rl_updater")
+    graph.add_edge("rl_updater", END)
 
     return graph.compile()
