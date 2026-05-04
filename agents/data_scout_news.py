@@ -1,4 +1,5 @@
 import json
+import time
 from tools.tavily_search import search_news
 from tools.llm_tool import get_llm
 
@@ -34,6 +35,9 @@ JSON response:"""
                 content = content[:-3]
             content = content.strip()
 
+        # Respect free tier rate limits (e.g. 15-20 requests per minute)
+        time.sleep(3) 
+
         return json.loads(content)
 
     except Exception as e:
@@ -42,15 +46,15 @@ JSON response:"""
 
 def run_news_scout(state: dict) -> dict:
     """
-    Agent: Fetches news for candidates and summarizes sentiment via LLM.
-    Only searches for tickers in candidates (not full universe) to limit API calls.
+    Agent: Fetches news for top candidates and summarizes sentiment via LLM.
+    Limit to top 10 candidates to prevent API rate limiting.
     """
     candidates = state.get('candidates', [])
     trades = state.get('trades', [])
 
-    # Get tickers from candidates or trades
+    # Get tickers from top 10 candidates or trades
     tickers_to_search = set()
-    for c in candidates:
+    for c in candidates[:10]: # CAP at top 10
         tickers_to_search.add(c['ticker'])
     for t in trades:
         tickers_to_search.add(t['ticker'])

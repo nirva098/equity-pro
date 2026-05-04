@@ -71,6 +71,9 @@ jobs:
         if: github.event.inputs.run_type == 'eod' || (github.event_name == 'schedule' && github.event.schedule == '15 10 * * 1-5')
         run: PYTHONPATH=. python eod_run.py
 
+      - name: Generate Visual Dashboard
+        run: python3 generate_dashboard.py
+
       - name: Commit state changes
         run: |
           git config --local user.email "action@github.com"

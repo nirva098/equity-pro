@@ -14,7 +14,12 @@ def get_llm(temperature=0.3):
             return None
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
-            return ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=temperature, api_key=GEMINI_API_KEY)
+            return ChatGoogleGenerativeAI(
+                model="gemini-2.5-flash", 
+                temperature=temperature, 
+                api_key=GEMINI_API_KEY,
+                max_retries=3
+            )
         except Exception as e:
             print(f"Failed to initialize Gemini LLM: {e}")
             return None
