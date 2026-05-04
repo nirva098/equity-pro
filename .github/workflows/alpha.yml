@@ -2,19 +2,77 @@ name: Alpha Army Daily Run
 
 on:
   workflow_dispatch:
+    inputs:
+      run_type:
+        description: 'Run Type'
+        required: true
+        default: 'premarket'
+        type: choice
+        options:
+          - premarket
+          - eod
+  schedule:
+    # Premarket at 8:30 AM IST (03:00 UTC) Mon-Fri
+    - cron: '0 3 * * 1-5'
+    # EOD at 3:45 PM IST (10:15 UTC) Mon-Fri
+    - cron: '15 10 * * 1-5'
+
+# IMPORTANT: To allow the action to commit and push changes back to the repo,
+# you must enable "Read and write permissions" for GITHUB_TOKEN under
+# Repository Settings > Actions > General > Workflow permissions.
+permissions:
+  contents: write
 
 jobs:
-  test:
+  trading-cycle:
     runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Required to push back to the repo
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Test DB Init
-        run: python -c "from core.db import init_db; init_db(); print('DB OK')"
+
+      - name: Initialize Database
+        run: python -c "from core.db import init_db; init_db()"
+
+      - name: Run Premarket Pipeline
+        if: github.event.inputs.run_type == 'premarket' || (github.event_name == 'schedule' && github.event.schedule == '0 3 * * 1-5')
+        run: PYTHONPATH=. python premarket_run.py
+
+      - name: Run EOD Pipeline
+        if: github.event.inputs.run_type == 'eod' || (github.event_name == 'schedule' && github.event.schedule == '15 10 * * 1-5')
+        run: PYTHONPATH=. python eod_run.py
+
+      - name: Commit state changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add trades.db memory/ reports/
+          git diff-index --quiet HEAD || git commit -m "Automated update: trades, memory, and reports"
+          git push origin main
+        continue-on-error: true # Don't fail if there are no changes to commit
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: trading-artifacts
+          path: |
+            trades.db
+            reports/
+          retention-days: 7
