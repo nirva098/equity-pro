@@ -11,11 +11,14 @@ on:
         options:
           - premarket
           - eod
+          - ingest
   schedule:
     # Premarket at 8:30 AM IST (03:00 UTC) Mon-Fri
     - cron: '0 3 * * 1-5'
     # EOD at 3:45 PM IST (10:15 UTC) Mon-Fri
     - cron: '15 10 * * 1-5'
+    # Ingest Market Data at 4:30 PM IST (11:00 UTC) Mon-Fri
+    - cron: '0 11 * * 1-5'
 
 # IMPORTANT: To allow the action to commit and push changes back to the repo,
 # you must enable "Read and write permissions" for GITHUB_TOKEN under
@@ -27,7 +30,10 @@ jobs:
   trading-cycle:
     runs-on: ubuntu-latest
     env:
+      LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -49,7 +55,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Initialize Database
-        run: python -c "from core.db import init_db; init_db()"
+        run: |
+          python -c "from core.db import init_db; init_db()"
+          python -c "from core.market_db import init_market_db; init_market_db()"
+
+      - name: Run Market Data Ingestion
+        if: github.event.inputs.run_type == 'ingest' || (github.event_name == 'schedule' && github.event.schedule == '0 11 * * 1-5')
+        run: PYTHONPATH=. python ingest_data.py
 
       - name: Run Premarket Pipeline
         if: github.event.inputs.run_type == 'premarket' || (github.event_name == 'schedule' && github.event.schedule == '0 3 * * 1-5')
@@ -63,8 +75,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add trades.db memory/ reports/
-          git diff-index --quiet HEAD || git commit -m "Automated update: trades, memory, and reports"
+          git add trades.db data/market_data.db memory/ reports/
+          git diff-index --quiet HEAD || git commit -m "Automated update: database, memory, and reports"
           git push origin main
         continue-on-error: true # Don't fail if there are no changes to commit
 

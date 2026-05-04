@@ -29,6 +29,13 @@ if __name__ == "__main__":
     if not symbols:
         symbols = ["RELIANCE", "TCS", "HDFCBANK", "INFY", "ICICIBANK"]
     
+    # Filter out common index symbols if they were fetched by mistake
+    indices = {"NIFTY", "BANKNIFTY", "NIFTYIT"}
+    symbols = [s for s in symbols if s not in indices]
+    
+    # Take top 250
+    symbols = symbols[:250]
+    
     csv_path = "data/universe_nse500.csv"
     os.makedirs(os.path.dirname(csv_path), exist_ok=True)
     
@@ -36,10 +43,8 @@ if __name__ == "__main__":
         writer = csv.writer(f)
         writer.writerow(["Ticker"])
         for sym in symbols:
-            # Replace spaces and ampersands with hyphens or standard Yahoo formats if needed,
-            # but usually just appending .NS works for standard NSE symbols.
-            # E.g. M&M.NS is valid.
-            if sym == "L&T": sym = "LT"
-            writer.writerow([f"{sym}.NS"])
+            # Handle standard Yahoo symbols
+            clean_sym = sym.replace("L&T", "LT").replace("M&M", "M&M")
+            writer.writerow([f"{clean_sym}.NS"])
             
     print(f"Successfully wrote {len(symbols)} tickers to {csv_path}")
