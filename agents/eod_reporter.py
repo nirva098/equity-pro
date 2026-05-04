@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 import yfinance as yf
 from core.db import get_open_trades, update_trade_exit, log_daily_run
-from core.config import OPENAI_API_KEY
+from tools.llm_tool import get_llm
 from tools.telegram_notify import send_message
 
 def _calc_pnl(trades: list) -> dict:
@@ -53,7 +53,8 @@ def _generate_journal_entry(pnl_results: list, regime: str) -> str:
     except Exception:
         last_entries = ""
 
-    if not OPENAI_API_KEY:
+    llm = get_llm(temperature=0.3)
+    if not llm:
         # Deterministic fallback
         total_R = sum(r['pnl_R'] for r in pnl_results)
         wins = sum(1 for r in pnl_results if r['pnl_R'] > 0)
@@ -62,9 +63,6 @@ def _generate_journal_entry(pnl_results: list, regime: str) -> str:
                 f"Regime: {regime}. No LLM analysis available.")
 
     try:
-        from langchain_openai import ChatOpenAI
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3, api_key=OPENAI_API_KEY)
-
         pnl_summary = json.dumps(pnl_results, indent=2, default=str)
         prompt = f"""Today's trading results:
 {pnl_summary}

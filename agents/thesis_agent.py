@@ -1,22 +1,15 @@
 import json
-from core.config import OPENAI_API_KEY
+from tools.llm_tool import get_llm
 
 def run_thesis_agent(state: dict) -> dict:
     """
     LLM Agent: Generates a 3-line thesis + confidence score per trade.
-    Uses gpt-4o-mini at temp=0.3.
+    Uses centralized LLM at temp=0.3.
     Style: Motilal Oswal equity research note.
     """
-    if not OPENAI_API_KEY:
-        print("Warning: OPENAI_API_KEY not set. Skipping thesis generation.")
-        state['thesis'] = {}
-        return state
-
-    try:
-        from langchain_openai import ChatOpenAI
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3, api_key=OPENAI_API_KEY)
-    except Exception as e:
-        print(f"Failed to initialize LLM: {e}")
+    llm = get_llm(temperature=0.3)
+    if not llm:
+        print("Warning: LLM not configured. Skipping thesis generation.")
         state['thesis'] = {}
         return state
 

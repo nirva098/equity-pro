@@ -2,7 +2,7 @@ import json
 import yfinance as yf
 import pandas as pd
 from tools.nse_tool import get_fii_dii
-from core.config import OPENAI_API_KEY
+from tools.llm_tool import get_llm
 
 def _parse_fii_net(fii_dii_data) -> float:
     """Parse FII net from nsepython output (handles both DataFrame and list)."""
@@ -29,14 +29,12 @@ def _parse_fii_net(fii_dii_data) -> float:
 def _llm_regime_analysis(market_data: dict) -> dict:
     """
     Optional LLM call to add event_flag and regime_narrative.
-    Falls back gracefully if no API key.
+    Falls back gracefully if no LLM configured.
     """
-    if not OPENAI_API_KEY:
-        return {'event_flag': 'none', 'regime_narrative': ''}
-
     try:
-        from langchain_openai import ChatOpenAI
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3, api_key=OPENAI_API_KEY)
+        llm = get_llm(temperature=0.3)
+        if not llm:
+            return {'event_flag': 'none', 'regime_narrative': ''}
 
         prompt = f"""You are an Indian market regime analyst.
 Given today's market data:

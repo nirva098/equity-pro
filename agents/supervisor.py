@@ -1,5 +1,5 @@
 import json
-from core.config import OPENAI_API_KEY
+from tools.llm_tool import get_llm
 
 def run_supervisor(state: dict) -> dict:
     """
@@ -24,17 +24,15 @@ def run_supervisor(state: dict) -> dict:
 
     market_context = state.get('market_context', {})
 
-    if not OPENAI_API_KEY:
-        print("Warning: OPENAI_API_KEY not set. Using defaults for supervisor.")
+    llm = get_llm(temperature=0.3)
+    if not llm:
+        print("Warning: LLM not configured. Using defaults for supervisor.")
         state['active_setups'] = list(memory.get('setups', {}).keys())
         state['risk_modifier'] = 1.0
         state['next_agent'] = 'market_context_agent'
         return state
 
     try:
-        from langchain_openai import ChatOpenAI
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3, api_key=OPENAI_API_KEY)
-
         weights_summary = {
             k: {"weight": v.get("weight"), "trades": v.get("trades"), "wins": v.get("wins")}
             for k, v in memory.get('setups', {}).items()

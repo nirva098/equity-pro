@@ -1,16 +1,16 @@
 import json
 from tools.tavily_search import search_news
-from core.config import OPENAI_API_KEY
+from tools.llm_tool import get_llm
 
 def _summarize_news_with_llm(ticker: str, news_results: list) -> dict:
-    """Uses gpt-4o-mini to summarize news into sentiment + events."""
-    if not OPENAI_API_KEY or not news_results:
+    """Uses LLM to summarize news into sentiment + events."""
+    if not news_results:
         return {'sentiment': 'neutral', 'events': []}
 
     try:
-        from langchain_openai import ChatOpenAI
-
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3, api_key=OPENAI_API_KEY)
+        llm = get_llm(temperature=0.3)
+        if not llm:
+            return {'sentiment': 'neutral', 'events': []}
 
         news_text = "\n".join([
             f"- {n['title']}: {n['content'][:200]}" for n in news_results[:5]
