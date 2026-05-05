@@ -2,6 +2,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 .env
-trades.db
-reports/*
-!reports/.gitkeep
+
+# Allow databases to be tracked for GitHub Actions persistence
+# !trades.db
+# !data/market_data.db
+
+# Allow reports to be tracked
+!reports/
+!reports/*.json
+!reports/*.html

@@ -1,0 +1,210 @@
+{
+    "date": "2026-05-04",
+    "market_context": {
+        "regime": "risk_on",
+        "nifty_close": 24119.30078125,
+        "vix": 18.299999237060547,
+        "fii_net": 2835.6200000000026,
+        "us_futures_change": 0.29283288896571213,
+        "nifty_5d_return": 0.9262366426250945,
+        "event_flag": "none",
+        "regime_narrative": ""
+    },
+    "candidates": [
+        {
+            "ticker": "BSE.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "SUNPHARMA.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "BAJAJ-AUTO.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "COALINDIA.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "POLYCAB.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "TITAN.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "LUPIN.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NESTLEIND.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "CUMMINSIND.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NMDC.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NAM-INDIA.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "MARICO.NS",
+            "setup": "quality_compounder",
+            "score": 1.5,
+            "expected_R": 3.0
+        }
+    ],
+    "trades": [
+        {
+            "ticker": "BSE.NS",
+            "setup": "quality_compounder",
+            "entry": 3711.3,
+            "sl": 3577.4,
+            "target": 3979.09,
+            "qty": 13,
+            "risk_per_share": 133.9,
+            "total_risk": 1740.65,
+            "expected_R": 2.0,
+            "kelly_f": 0.5,
+            "score": 1.5
+        },
+        {
+            "ticker": "SUNPHARMA.NS",
+            "setup": "quality_compounder",
+            "entry": 1823.5,
+            "sl": 1753.64,
+            "target": 1963.21,
+            "qty": 27,
+            "risk_per_share": 69.86,
+            "total_risk": 1886.14,
+            "expected_R": 2.0,
+            "kelly_f": 0.5,
+            "score": 1.5
+        },
+        {
+            "ticker": "BAJAJ-AUTO.NS",
+            "setup": "quality_compounder",
+            "entry": 10132.0,
+            "sl": 9802.11,
+            "target": 10791.79,
+            "qty": 4,
+            "risk_per_share": 329.89,
+            "total_risk": 1319.57,
+            "expected_R": 2.0,
+            "kelly_f": 0.5,
+            "score": 1.5
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "entry": 2912.9,
+            "sl": 2778.41,
+            "target": 3181.87,
+            "qty": 17,
+            "risk_per_share": 134.49,
+            "total_risk": 2286.26,
+            "expected_R": 2.0,
+            "kelly_f": 0.5,
+            "score": 1.5
+        },
+        {
+            "ticker": "COALINDIA.NS",
+            "setup": "quality_compounder",
+            "entry": 479.95,
+            "sl": 464.05,
+            "target": 511.75,
+            "qty": 104,
+            "risk_per_share": 15.9,
+            "total_risk": 1653.6,
+            "expected_R": 2.0,
+            "kelly_f": 0.5,
+            "score": 1.5
+        }
+    ],
+    "thesis": {},
+    "execution_log": [
+        {
+            "ticker": "BSE.NS",
+            "status": "filled",
+            "entry": 3711.3,
+            "qty": 13,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "SUNPHARMA.NS",
+            "status": "filled",
+            "entry": 1823.5,
+            "qty": 27,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "BAJAJ-AUTO.NS",
+            "status": "filled",
+            "entry": 10132.0,
+            "qty": 4,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "MCX.NS",
+            "status": "filled",
+            "entry": 2912.9,
+            "qty": 17,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "COALINDIA.NS",
+            "status": "filled",
+            "entry": 479.95,
+            "qty": 104,
+            "time": "09:15:00"
+        }
+    ],
+    "active_setups": [
+        "value_breakout",
+        "momentum_pullback",
+        "quality_compounder"
+    ],
+    "risk_modifier": 1.0
+}

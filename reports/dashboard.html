@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSE Alpha Army Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --card-bg: #16161e;
+            --accent: #7aa2f7;
+            --text: #c0caf5;
+            --text-dim: #9aa5ce;
+            --green: #9ece6a;
+            --red: #f7768e;
+            --border: #292e42;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+        h1 { margin: 0; font-weight: 700; color: var(--accent); }
+        .date { font-family: 'JetBrains Mono'; color: var(--text-dim); }
+        
+        .market-context {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+        .regime-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: var(--border);
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+        .ticker {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .setup {
+            font-size: 0.75rem;
+            background: #24283b;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--text-dim);
+        }
+        .thesis-text {
+            font-style: italic;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono';
+            font-size: 0.85rem;
+        }
+        .stat-label { color: var(--text-dim); }
+        .stat-value { color: var(--green); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>NSE ALPHA ARMY</h1>
+            <div class="date">2026-05-04</div>
+        </header>
+
+        <section class="market-context">
+            <div class="regime-badge">risk_on</div>
+            <p></p>
+            <div style="display: flex; gap: 2rem; font-size: 0.8rem; color: var(--text-dim);">
+                <span>VIX: <b>18.299999237060547</b></span>
+                <span>NIFTY: <b>24119.30078125</b></span>
+                <span>FII Net: <b>2835.6200000000026 Cr</b></span>
+            </div>
+        </section>
+
+        <h2>Daily Signals</h2>
+        <div class="grid">
+
+            <div class="card">
+                <div class="ticker">
+                    BSE.NS
+                    <span class="setup">quality_compounder</span>
+                </div>
+                <div class="stats">
+                    <span class="stat-label">Entry</span><span class="stat-value">₹3711.3</span>
+                    <span class="stat-label">Stop Loss</span><span class="stat-value" style="color: var(--red)">₹3577.4</span>
+                    <span class="stat-label">Target</span><span class="stat-value">₹3979.09</span>
+                    <span class="stat-label">Confidence</span><span class="stat-value">0%</span>
+                </div>
+                <div class="thesis-text">
+                    "No research thesis available."
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="ticker">
+                    SUNPHARMA.NS
+                    <span class="setup">quality_compounder</span>
+                </div>
+                <div class="stats">
+                    <span class="stat-label">Entry</span><span class="stat-value">₹1823.5</span>
+                    <span class="stat-label">Stop Loss</span><span class="stat-value" style="color: var(--red)">₹1753.64</span>
+                    <span class="stat-label">Target</span><span class="stat-value">₹1963.21</span>
+                    <span class="stat-label">Confidence</span><span class="stat-value">0%</span>
+                </div>
+                <div class="thesis-text">
+                    "No research thesis available."
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="ticker">
+                    BAJAJ-AUTO.NS
+                    <span class="setup">quality_compounder</span>
+                </div>
+                <div class="stats">
+                    <span class="stat-label">Entry</span><span class="stat-value">₹10132.0</span>
+                    <span class="stat-label">Stop Loss</span><span class="stat-value" style="color: var(--red)">₹9802.11</span>
+                    <span class="stat-label">Target</span><span class="stat-value">₹10791.79</span>
+                    <span class="stat-label">Confidence</span><span class="stat-value">0%</span>
+                </div>
+                <div class="thesis-text">
+                    "No research thesis available."
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="ticker">
+                    MCX.NS
+                    <span class="setup">quality_compounder</span>
+                </div>
+                <div class="stats">
+                    <span class="stat-label">Entry</span><span class="stat-value">₹2912.9</span>
+                    <span class="stat-label">Stop Loss</span><span class="stat-value" style="color: var(--red)">₹2778.41</span>
+                    <span class="stat-label">Target</span><span class="stat-value">₹3181.87</span>
+                    <span class="stat-label">Confidence</span><span class="stat-value">0%</span>
+                </div>
+                <div class="thesis-text">
+                    "No research thesis available."
+                </div>
+            </div>
+        
+            <div class="card">
+                <div class="ticker">
+                    COALINDIA.NS
+                    <span class="setup">quality_compounder</span>
+                </div>
+                <div class="stats">
+                    <span class="stat-label">Entry</span><span class="stat-value">₹479.95</span>
+                    <span class="stat-label">Stop Loss</span><span class="stat-value" style="color: var(--red)">₹464.05</span>
+                    <span class="stat-label">Target</span><span class="stat-value">₹511.75</span>
+                    <span class="stat-label">Confidence</span><span class="stat-value">0%</span>
+                </div>
+                <div class="thesis-text">
+                    "No research thesis available."
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</body>
+</html>
