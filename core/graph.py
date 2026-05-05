@@ -54,9 +54,9 @@ def build_premarket_graph():
     graph.add_edge("fundamental_scout", "technical_scout")
     graph.add_edge("technical_scout", "screener")
     graph.add_edge("screener", "news_scout")
-    graph.add_edge("news_scout", "thesis_agent")
-    graph.add_edge("thesis_agent", "risk_sizer")
-    graph.add_edge("risk_sizer", "validator")
+    graph.add_edge("news_scout", "risk_sizer")
+    graph.add_edge("risk_sizer", "thesis_agent")
+    graph.add_edge("thesis_agent", "validator")
 
     # Conditional edge from validator
     graph.add_conditional_edges(

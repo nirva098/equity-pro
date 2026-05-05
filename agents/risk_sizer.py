@@ -48,8 +48,8 @@ def run_risk_sizer(state: dict) -> dict:
         wins = setup_stats.get('wins', 0)
 
         if total_trades < 30:
-            # Laplace smoothing default per kb.md
-            kelly_f = 0.5
+            # Quarter-Kelly for low-sample setups (industry standard for cold-start)
+            kelly_f = 0.25
         else:
             winrate = (wins + 1) / (total_trades + 2)
             avg_win = 3.0  # Expected R:R ratio

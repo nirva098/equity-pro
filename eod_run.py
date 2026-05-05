@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime
 from core.db import init_db
 from core.graph import build_eod_graph
@@ -14,9 +15,24 @@ def main():
 
     # 2. Build initial state
     today = datetime.now().strftime('%Y-%m-%d')
+
+    # Load market_context from today's premarket report (if available)
+    market_context = {}
+    report_path = f"reports/{today}_premarket.json"
+    if os.path.exists(report_path):
+        try:
+            with open(report_path, 'r') as f:
+                premarket_report = json.load(f)
+            market_context = premarket_report.get('market_context', {})
+            print(f"Loaded market context from {report_path} (regime: {market_context.get('regime', 'unknown')})")
+        except Exception as e:
+            print(f"Warning: Could not load premarket report: {e}")
+    else:
+        print(f"No premarket report found at {report_path}, regime will be 'unknown'")
+
     state = {
         'date': today,
-        'market_context': {},
+        'market_context': market_context,
         'eod_pnl': {}
     }
 

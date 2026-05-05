@@ -1,5 +1,5 @@
 import re
-from core.config import CAPITAL, MAX_RISK_PER_TRADE
+from core.config import CAPITAL, MAX_RISK_PER_TRADE, MAX_PORTFOLIO_RISK_PER_DAY
 
 def _extract_numbers(text: str) -> list:
     """Extract all numeric values from a text string."""
@@ -52,7 +52,8 @@ def run_validator(state: dict) -> dict:
     fundamentals = state.get('fundamentals', {})
     technicals = state.get('technicals', {})
 
-    max_total_risk = CAPITAL * MAX_RISK_PER_TRADE
+    max_single_risk = CAPITAL * MAX_RISK_PER_TRADE           # ₹20,000 per trade
+    max_portfolio_risk = CAPITAL * MAX_PORTFOLIO_RISK_PER_DAY  # ₹60,000 total daily
     valid_trades = []
     cumulative_risk = 0
     needs_thesis_retry = False
@@ -68,13 +69,13 @@ def run_validator(state: dict) -> dict:
 
         # Check 2: Single trade risk must not exceed 2% of capital
         trade_risk = trade['qty'] * trade['risk_per_share']
-        if trade_risk > max_total_risk:
-            print(f"REJECTED {ticker}: trade risk ({trade_risk:.0f}) > max ({max_total_risk:.0f})")
+        if trade_risk > max_single_risk:
+            print(f"REJECTED {ticker}: trade risk (₹{trade_risk:.0f}) > per-trade cap (₹{max_single_risk:.0f})")
             continue
 
-        # Check 3: Cumulative portfolio risk must not exceed 2% of capital
-        if cumulative_risk + trade_risk > max_total_risk:
-            print(f"REJECTED {ticker}: cumulative risk would exceed 2% cap")
+        # Check 3: Cumulative portfolio risk must not exceed 6% of capital per day
+        if cumulative_risk + trade_risk > max_portfolio_risk:
+            print(f"REJECTED {ticker}: cumulative risk (₹{cumulative_risk + trade_risk:.0f}) would exceed daily cap (₹{max_portfolio_risk:.0f})")
             continue
 
         # --- Phase 3: Hallucination check ---

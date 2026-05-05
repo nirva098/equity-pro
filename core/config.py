@@ -6,7 +6,8 @@ load_dotenv()
 
 # Trading Constants
 CAPITAL = 1000000
-MAX_RISK_PER_TRADE = 0.02
+MAX_RISK_PER_TRADE = 0.02        # 2% max risk per individual trade (₹20K on ₹10L)
+MAX_PORTFOLIO_RISK_PER_DAY = 0.06  # 6% max total portfolio risk per day (₹60K on ₹10L)
 DB_PATH = "trades.db"
 
 # API Keys
