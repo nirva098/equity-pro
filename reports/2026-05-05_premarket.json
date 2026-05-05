@@ -1,0 +1,113 @@
+{
+    "date": "2026-05-05",
+    "market_context": {
+        "regime": "risk_on",
+        "nifty_close": 23958.05078125,
+        "vix": 18.3700008392334,
+        "fii_net": 2835.6200000000026,
+        "us_futures_change": -0.4062189384334172,
+        "nifty_5d_return": -0.5588765139076267,
+        "event_flag": "none",
+        "regime_narrative": "The market is currently in a risk-on regime, characterized by positive FII inflows and a moderate VIX, despite a slight negative NIFTY return over the last five days and a minor dip in global markets."
+    },
+    "candidates": [
+        {
+            "ticker": "COALINDIA.NS",
+            "setup": "quality_compounder",
+            "score": 2.382,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "CUMMINSIND.NS",
+            "setup": "quality_compounder",
+            "score": 1.906,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NESTLEIND.NS",
+            "setup": "quality_compounder",
+            "score": 1.856,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "BSE.NS",
+            "setup": "quality_compounder",
+            "score": 1.852,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "quality_compounder",
+            "score": 1.832,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "SUNPHARMA.NS",
+            "setup": "quality_compounder",
+            "score": 1.774,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "MARICO.NS",
+            "setup": "quality_compounder",
+            "score": 1.756,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "score": 1.754,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NMDC.NS",
+            "setup": "quality_compounder",
+            "score": 1.74,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NAM-INDIA.NS",
+            "setup": "quality_compounder",
+            "score": 1.728,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "POLYCAB.NS",
+            "setup": "quality_compounder",
+            "score": 1.722,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "LUPIN.NS",
+            "setup": "quality_compounder",
+            "score": 1.708,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "BAJAJ-AUTO.NS",
+            "setup": "quality_compounder",
+            "score": 1.706,
+            "expected_R": 3.0
+        }
+    ],
+    "trades": [],
+    "thesis": {
+        "COALINDIA.NS": {
+            "thesis": "Line 1: No immediate specific catalyst identified from the provided data for today's trade. Line 2: COALINDIA exhibits strong fundamental value with a DCF upside of 194.9% and a robust FCF Yield of 10.38%, supported by a low DE Ratio of 0.118. Line 3: Key risks include the highly overbought RSI14 at 87.0, negative Revenue Growth of -0.5%, and lower than average Volume Ratio of 0.59, suggesting potential for a technical pullback.",
+            "catalyst": "none",
+            "confidence": 4
+        },
+        "CUMMINSIND.NS": {
+            "thesis": "Line 1: No immediate specific catalyst identified from the provided data. Line 2: Despite a DCF upside of -72.0% and FCF Yield of 0.99% indicating premium valuation, the company's exceptional F-Score of 8, ROCE of 33.0%, and near-zero DE_Ratio of 0.004 justify its status as a quality compounder with strong operational fundamentals. Line 3: Primary risk is a significant valuation correction given the stock's proximity to its 52-week high (1.1% away) and the negative DCF upside.",
+            "catalyst": "none",
+            "confidence": 5
+        }
+    },
+    "execution_log": [],
+    "active_setups": [
+        "value_breakout",
+        "momentum_pullback",
+        "quality_compounder"
+    ],
+    "risk_modifier": 1.0
+}
