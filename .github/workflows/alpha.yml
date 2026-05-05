@@ -78,8 +78,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add trades.db data/market_data.db memory/ reports/
-          git diff-index --quiet HEAD || git commit -m "Automated update: database, memory, and reports"
+          git add trades.db data/market_data.db memory/ reports/ docs/
+          git diff-index --quiet HEAD || git commit -m "Automated update [$(date +%Y-%m-%d)]: db, memory, reports, dashboard"
           git push origin main
         continue-on-error: true # Don't fail if there are no changes to commit
 
@@ -90,4 +90,5 @@ jobs:
           path: |
             trades.db
             reports/
-          retention-days: 7
+            docs/
+          retention-days: 30

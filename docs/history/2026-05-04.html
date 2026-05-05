@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSE Alpha Army — 2026-05-04</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #0d0d12;
+            --surface: #13131a;
+            --card: #1a1a24;
+            --border: #252535;
+            --accent: #7aa2f7;
+            --accent2: #bb9af7;
+            --green: #9ece6a;
+            --red: #f7768e;
+            --yellow: #e0af68;
+            --text: #c0caf5;
+            --muted: #565f89;
+            --mono: 'JetBrains Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+        /* NAV */
+        nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+        .nav-logo { font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; color: var(--accent); }
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-meta { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+
+        /* PAGES */
+        .page { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
+        .page.active { display: block; }
+
+        /* REGIME BANNER */
+        .regime-banner { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid #9ece6a; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+        .regime-pill { font-family: var(--mono); font-size: 0.8rem; font-weight: 600; color: #9ece6a; background: #9ece6a20; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.08em; }
+        .regime-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .regime-stat { font-size: 0.82rem; }
+        .regime-stat span { color: var(--muted); margin-right: 4px; }
+        .regime-narrative { color: var(--muted); font-size: 0.82rem; flex: 1; min-width: 200px; font-style: italic; }
+        .risk-mod { font-family: var(--mono); font-size: 0.8rem; color: var(--green); }
+
+        /* METRICS ROW */
+        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .metric { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }
+        .metric-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+        .metric-value { font-family: var(--mono); font-size: 1.5rem; font-weight: 600; }
+        .metric-value.green { color: var(--green); }
+        .metric-value.red { color: var(--red); }
+        .metric-value.accent { color: var(--accent); }
+
+        /* SECTION TITLE */
+        .section-title { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+        /* TRADE CARDS */
+        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; transition: all 0.2s ease; }
+        .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(122,162,247,0.08); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+        .ticker { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.02em; font-family: var(--mono); }
+        .badge { display: inline-block; background: var(--border); color: var(--accent2); padding: 3px 8px; border-radius: 5px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.05em; margin-top: 4px; }
+        .confidence-ring { width: 44px; height: 44px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--border) 0%); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; border: 2px solid var(--border); flex-shrink: 0; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; }
+        .stat { display: flex; flex-direction: column; }
+        .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-value { font-family: var(--mono); font-size: 0.9rem; font-weight: 500; margin-top: 1px; }
+        .stat-value.green { color: var(--green); }
+        .stat-value.red { color: var(--red); }
+        .thesis { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-style: italic; }
+
+        /* HISTORY TABLE */
+        .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        th { padding: 0.75rem 1rem; text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+        td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-family: var(--mono); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: var(--card); }
+        .badge-sm { background: var(--border); color: var(--muted); padding: 2px 6px; border-radius: 4px; font-size: 0.68rem; white-space: nowrap; }
+        .green { color: var(--green); }
+        .red { color: var(--red); }
+        .status-open { color: var(--yellow); }
+        .status-closed { color: var(--muted); }
+
+        /* CHART */
+        .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .chart-title { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1.25rem; }
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+        @media (max-width: 700px) { .charts-grid { grid-template-columns: 1fr; } .cards { grid-template-columns: 1fr; } .regime-stats { gap: 1rem; } }
+
+        /* SETUP PILLS */
+        .setups { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .setup-pill { padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--accent); color: var(--accent); background: rgba(122,162,247,0.08); }
+
+        /* EMPTY STATE */
+        .empty { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+        .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-logo">⚡ NSE ALPHA ARMY</div>
+    <div class="nav-links">
+        <a class="active" onclick="showPage('today', this)">Today</a>
+        <a onclick="showPage('history', this)">History</a>
+        <a onclick="showPage('performance', this)">Performance</a>
+    </div>
+    <div class="nav-meta">Updated 2026-05-05 12:01 IST</div>
+</nav>
+
+<!-- TODAY PAGE -->
+<div id="page-today" class="page active">
+    <div class="regime-banner">
+        <span class="regime-pill">risk on</span>
+        <div class="regime-stats">
+            <div class="regime-stat"><span>NIFTY</span><b>24,119</b></div>
+            <div class="regime-stat"><span>VIX</span><b>18.3</b></div>
+            <div class="regime-stat"><span>FII</span><b>₹2,836 Cr</b></div>
+            <div class="regime-stat"><span>5d Ret</span><b>+0.93%</b></div>
+        </div>
+        <div class="regime-narrative"></div>
+        <div class="risk-mod">Risk mod: 1.0x</div>
+    </div>
+
+    <div class="setups"><span class="setup-pill">Value Breakout</span><span class="setup-pill">Momentum Pullback</span><span class="setup-pill">Quality Compounder</span></div>
+
+    <div class="section-title">Today's Signals — 2026-05-04</div>
+
+    <div class="cards">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">BSE</div>
+                    <span class="badge">QUALITY COMPOUNDER</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">1.50</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹3711.3</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹3577.4</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹3979.09</span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">13</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹1740.65</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">2.0x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">0.5</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">0/10</span></div>
+            </div>
+            
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">SUNPHARMA</div>
+                    <span class="badge">QUALITY COMPOUNDER</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">1.50</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹1823.5</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹1753.64</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹1963.21</span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">27</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹1886.14</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">2.0x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">0.5</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">0/10</span></div>
+            </div>
+            
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">BAJAJ-AUTO</div>
+                    <span class="badge">QUALITY COMPOUNDER</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">1.50</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹10132.0</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹9802.11</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹10791.79</span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">4</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹1319.57</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">2.0x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">0.5</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">0/10</span></div>
+            </div>
+            
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">MCX</div>
+                    <span class="badge">QUALITY COMPOUNDER</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">1.50</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹2912.9</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹2778.41</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹3181.87</span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">17</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹2286.26</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">2.0x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">0.5</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">0/10</span></div>
+            </div>
+            
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">COALINDIA</div>
+                    <span class="badge">QUALITY COMPOUNDER</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">1.50</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹479.95</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹464.05</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹511.75</span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">104</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹1653.6</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">2.0x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">0.5</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">0/10</span></div>
+            </div>
+            
+        </div></div>
+</div>
+
+<!-- HISTORY PAGE -->
+<div id="page-history" class="page">
+    <div class="section-title">Trade History — Last 30 Days</div>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Ticker</th><th>Setup</th><th>Entry</th><th>SL</th><th>Target</th><th>Qty</th><th>PnL R</th><th>Status</th></tr></thead><tbody>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>COALINDIA</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹479.95</td>
+            <td class="red">₹464.05</td>
+            <td class="green">₹511.75</td>
+            <td>104</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2912.9</td>
+            <td class="red">₹2778.41</td>
+            <td class="green">₹3181.87</td>
+            <td>17</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>BAJAJ-AUTO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹10132.0</td>
+            <td class="red">₹9802.11</td>
+            <td class="green">₹10791.79</td>
+            <td>4</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>SUNPHARMA</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹1823.5</td>
+            <td class="red">₹1753.64</td>
+            <td class="green">₹1963.21</td>
+            <td>27</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>BSE</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3711.3</td>
+            <td class="red">₹3577.4</td>
+            <td class="green">₹3979.09</td>
+            <td>13</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>COALINDIA</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹479.95</td>
+            <td class="red">₹464.05</td>
+            <td class="green">₹511.75</td>
+            <td>104</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2912.9</td>
+            <td class="red">₹2778.41</td>
+            <td class="green">₹3181.87</td>
+            <td>17</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>BAJAJ-AUTO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹10132.0</td>
+            <td class="red">₹9802.11</td>
+            <td class="green">₹10791.79</td>
+            <td>4</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>SUNPHARMA</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹1823.5</td>
+            <td class="red">₹1753.64</td>
+            <td class="green">₹1963.21</td>
+            <td>27</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr>
+        <tr>
+            <td>2026-05-04</td>
+            <td><b>BSE</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3711.3</td>
+            <td class="red">₹3577.4</td>
+            <td class="green">₹3979.09</td>
+            <td>13</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-open">open</span></td>
+        </tr></tbody></table></div>
+</div>
+
+<!-- PERFORMANCE PAGE -->
+<div id="page-performance" class="page">
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-label">30d Win Rate</div>
+            <div class="metric-value red">0%</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">30d Total R</div>
+            <div class="metric-value green">+0.00R</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Avg R/Trade</div>
+            <div class="metric-value green">+0.00R</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Trades Closed</div>
+            <div class="metric-value accent">0</div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <div class="chart-title">Daily P&L (R)</div>
+            <canvas id="chartR" height="180"></canvas>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">Win Rate %</div>
+            <canvas id="chartWR" height="180"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+function showPage(id, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    el.classList.add('active');
+}
+
+const labels = [];
+const rData = [];
+const wrData = [];
+
+const chartDefaults = {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+        x: { grid: { color: '#252535' }, ticks: { color: '#565f89', font: { size: 10 } } },
+        y: { grid: { color: '#252535' }, ticks: { color: '#565f89', font: { size: 10 } } }
+    }
+};
+
+new Chart(document.getElementById('chartR'), {
+    type: 'bar',
+    data: { labels, datasets: [{ data: rData, backgroundColor: rData.map(v => v >= 0 ? '#9ece6a55' : '#f7768e55'), borderColor: rData.map(v => v >= 0 ? '#9ece6a' : '#f7768e'), borderWidth: 1, borderRadius: 4 }] },
+    options: chartDefaults
+});
+
+new Chart(document.getElementById('chartWR'), {
+    type: 'line',
+    data: { labels, datasets: [{ data: wrData, borderColor: '#7aa2f7', backgroundColor: '#7aa2f715', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#7aa2f7' }] },
+    options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, min: 0, max: 100 } } }
+});
+</script>
+</body>
+</html>

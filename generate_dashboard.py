@@ -1,6 +1,39 @@
 import json
 import os
-from datetime import datetime
+import sqlite3
+from datetime import datetime, timedelta
+
+def _load_recent_trades(db_path="trades.db", days=30):
+    """Load recent closed trades from SQLite for the history page."""
+    if not os.path.exists(db_path):
+        return []
+    try:
+        with sqlite3.connect(db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cutoff = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
+            rows = conn.execute(
+                "SELECT * FROM trades WHERE date >= ? ORDER BY date DESC, id DESC LIMIT 100",
+                (cutoff,)
+            ).fetchall()
+            return [dict(r) for r in rows]
+    except Exception:
+        return []
+
+def _load_daily_runs(db_path="trades.db", days=30):
+    """Load recent daily run summaries."""
+    if not os.path.exists(db_path):
+        return []
+    try:
+        with sqlite3.connect(db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cutoff = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
+            rows = conn.execute(
+                "SELECT * FROM daily_runs WHERE date >= ? ORDER BY date DESC LIMIT 30",
+                (cutoff,)
+            ).fetchall()
+            return [dict(r) for r in rows]
+    except Exception:
+        return []
 
 def generate_dashboard():
     # Find the latest premarket report
@@ -13,9 +46,8 @@ def generate_dashboard():
     if not files:
         print("No premarket reports found.")
         return
-    
+
     latest_report_path = os.path.join(reports_dir, sorted(files)[-1])
-    
     with open(latest_report_path, 'r') as f:
         data = json.load(f)
 
@@ -23,176 +55,308 @@ def generate_dashboard():
     market_context = data.get('market_context', {})
     trades = data.get('trades', [])
     thesis = data.get('thesis', {})
+    active_setups = data.get('active_setups', [])
+    risk_modifier = data.get('risk_modifier', 1.0)
 
-    html_header = f"""
-<!DOCTYPE html>
+    recent_trades = _load_recent_trades()
+    daily_runs = _load_daily_runs()
+
+    # Build regime color
+    regime = market_context.get('regime', 'risk_on')
+    regime_color = {'risk_on': '#9ece6a', 'risk_off': '#f7768e', 'high_vix': '#e0af68'}.get(regime, '#7aa2f7')
+
+    # Trade cards
+    cards_html = ""
+    for trade in trades:
+        ticker = trade.get('ticker', 'N/A')
+        t_info = thesis.get(ticker, {})
+        t_thesis = t_info.get('thesis', '')
+        confidence = trade.get('confidence', t_info.get('confidence', 0))
+        rr = trade.get('expected_R', 0)
+        score = trade.get('score', 0)
+
+        cards_html += f"""
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">{ticker.replace('.NS','')}</div>
+                    <span class="badge">{trade.get('setup','').replace('_',' ').upper()}</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">{score:.2f}</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹{trade.get('entry','—')}</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹{trade.get('sl','—')}</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹{trade.get('target','—')}</span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">{trade.get('qty','—')}</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹{trade.get('total_risk','—')}</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">{rr:.1f}x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">{trade.get('kelly_f','—')}</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">{confidence}/10</span></div>
+            </div>
+            {'<div class="thesis">' + t_thesis + '</div>' if t_thesis else ''}
+        </div>"""
+
+    # History rows
+    history_rows = ""
+    for t in recent_trades:
+        pnl_r = t.get('pnl_R') or 0
+        status = t.get('status', '')
+        pnl_class = 'green' if pnl_r > 0 else ('red' if pnl_r < 0 else '')
+        pnl_display = f"{pnl_r:+.2f}R" if status == 'closed' else '—'
+        history_rows += f"""
+        <tr>
+            <td>{t.get('date','')}</td>
+            <td><b>{t.get('ticker','').replace('.NS','')}</b></td>
+            <td><span class="badge-sm">{t.get('setup','').replace('_',' ')}</span></td>
+            <td>₹{t.get('entry','')}</td>
+            <td class="red">₹{t.get('sl','')}</td>
+            <td class="green">₹{t.get('target','')}</td>
+            <td>{t.get('qty','')}</td>
+            <td><span class="{pnl_class}">{pnl_display}</span></td>
+            <td><span class="status-{status}">{status}</span></td>
+        </tr>"""
+
+    # Daily runs chart data
+    chart_labels = json.dumps([r['date'] for r in reversed(daily_runs)])
+    chart_r = json.dumps([round(r.get('total_R', 0), 2) for r in reversed(daily_runs)])
+    chart_wr = json.dumps([round(r.get('win_rate', 0), 1) for r in reversed(daily_runs)])
+
+    # Metrics
+    total_closed = [t for t in recent_trades if t.get('status') == 'closed']
+    total_wins = sum(1 for t in total_closed if (t.get('pnl_R') or 0) > 0)
+    win_rate_30d = round((total_wins / len(total_closed)) * 100) if total_closed else 0
+    total_r_30d = round(sum(t.get('pnl_R') or 0 for t in total_closed), 2)
+    avg_r = round(total_r_30d / len(total_closed), 2) if total_closed else 0
+
+    last_updated = datetime.now().strftime('%Y-%m-%d %H:%M IST')
+
+    html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NSE Alpha Army Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <title>NSE Alpha Army — {date}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root {{
-            --bg: #0a0a0c;
-            --card-bg: #16161e;
+            --bg: #0d0d12;
+            --surface: #13131a;
+            --card: #1a1a24;
+            --border: #252535;
             --accent: #7aa2f7;
-            --text: #c0caf5;
-            --text-dim: #9aa5ce;
+            --accent2: #bb9af7;
             --green: #9ece6a;
             --red: #f7768e;
-            --border: #292e42;
+            --yellow: #e0af68;
+            --text: #c0caf5;
+            --muted: #565f89;
+            --mono: 'JetBrains Mono', monospace;
         }}
-        body {{
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 2rem;
-            line-height: 1.6;
-        }}
-        .container {{
-            max-width: 1000px;
-            margin: 0 auto;
-        }}
-        header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1rem;
-        }}
-        h1 {{ margin: 0; font-weight: 700; color: var(--accent); }}
-        .date {{ font-family: 'JetBrains Mono'; color: var(--text-dim); }}
-        
-        .market-context {{
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            margin-bottom: 2rem;
-        }}
-        .regime-badge {{
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            background: var(--border);
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }}
-        
-        .grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }}
-        .card {{
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: transform 0.2s;
-        }}
-        .card:hover {{
-            transform: translateY(-4px);
-            border-color: var(--accent);
-        }}
-        .ticker {{
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin: 0 0 0.5rem 0;
-            display: flex;
-            justify-content: space-between;
-        }}
-        .setup {{
-            font-size: 0.75rem;
-            background: #24283b;
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: var(--text-dim);
-        }}
-        .thesis-text {{
-            font-style: italic;
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-        }}
-        .stats {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            font-family: 'JetBrains Mono';
-            font-size: 0.85rem;
-        }}
-        .stat-label {{ color: var(--text-dim); }}
-        .stat-value {{ color: var(--green); }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{ background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }}
+
+        /* NAV */
+        nav {{ background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }}
+        .nav-logo {{ font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; color: var(--accent); }}
+        .nav-links {{ display: flex; gap: 1.5rem; }}
+        .nav-links a {{ color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: color 0.2s; }}
+        .nav-links a:hover, .nav-links a.active {{ color: var(--text); }}
+        .nav-meta {{ font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }}
+
+        /* PAGES */
+        .page {{ display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }}
+        .page.active {{ display: block; }}
+
+        /* REGIME BANNER */
+        .regime-banner {{ background: var(--surface); border: 1px solid var(--border); border-left: 4px solid {regime_color}; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }}
+        .regime-pill {{ font-family: var(--mono); font-size: 0.8rem; font-weight: 600; color: {regime_color}; background: {regime_color}20; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.08em; }}
+        .regime-stats {{ display: flex; gap: 2rem; flex-wrap: wrap; }}
+        .regime-stat {{ font-size: 0.82rem; }}
+        .regime-stat span {{ color: var(--muted); margin-right: 4px; }}
+        .regime-narrative {{ color: var(--muted); font-size: 0.82rem; flex: 1; min-width: 200px; font-style: italic; }}
+        .risk-mod {{ font-family: var(--mono); font-size: 0.8rem; color: {'var(--green)' if risk_modifier >= 1.0 else 'var(--yellow)'}; }}
+
+        /* METRICS ROW */
+        .metrics {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }}
+        .metric {{ background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }}
+        .metric-label {{ font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }}
+        .metric-value {{ font-family: var(--mono); font-size: 1.5rem; font-weight: 600; }}
+        .metric-value.green {{ color: var(--green); }}
+        .metric-value.red {{ color: var(--red); }}
+        .metric-value.accent {{ color: var(--accent); }}
+
+        /* SECTION TITLE */
+        .section-title {{ font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }}
+        .section-title::after {{ content: ''; flex: 1; height: 1px; background: var(--border); }}
+
+        /* TRADE CARDS */
+        .cards {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }}
+        .card {{ background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; transition: all 0.2s ease; }}
+        .card:hover {{ border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(122,162,247,0.08); }}
+        .card-header {{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }}
+        .ticker {{ font-size: 1.3rem; font-weight: 700; letter-spacing: 0.02em; font-family: var(--mono); }}
+        .badge {{ display: inline-block; background: var(--border); color: var(--accent2); padding: 3px 8px; border-radius: 5px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.05em; margin-top: 4px; }}
+        .confidence-ring {{ width: 44px; height: 44px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--border) 0%); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; border: 2px solid var(--border); flex-shrink: 0; }}
+        .stats {{ display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; }}
+        .stat {{ display: flex; flex-direction: column; }}
+        .stat-label {{ font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }}
+        .stat-value {{ font-family: var(--mono); font-size: 0.9rem; font-weight: 500; margin-top: 1px; }}
+        .stat-value.green {{ color: var(--green); }}
+        .stat-value.red {{ color: var(--red); }}
+        .thesis {{ font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-style: italic; }}
+
+        /* HISTORY TABLE */
+        .table-wrap {{ overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }}
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
+        th {{ padding: 0.75rem 1rem; text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }}
+        td {{ padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-family: var(--mono); }}
+        tr:last-child td {{ border-bottom: none; }}
+        tr:hover td {{ background: var(--card); }}
+        .badge-sm {{ background: var(--border); color: var(--muted); padding: 2px 6px; border-radius: 4px; font-size: 0.68rem; white-space: nowrap; }}
+        .green {{ color: var(--green); }}
+        .red {{ color: var(--red); }}
+        .status-open {{ color: var(--yellow); }}
+        .status-closed {{ color: var(--muted); }}
+
+        /* CHART */
+        .chart-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }}
+        .chart-title {{ font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1.25rem; }}
+        .charts-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }}
+        @media (max-width: 700px) {{ .charts-grid {{ grid-template-columns: 1fr; }} .cards {{ grid-template-columns: 1fr; }} .regime-stats {{ gap: 1rem; }} }}
+
+        /* SETUP PILLS */
+        .setups {{ display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }}
+        .setup-pill {{ padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--accent); color: var(--accent); background: rgba(122,162,247,0.08); }}
+
+        /* EMPTY STATE */
+        .empty {{ text-align: center; padding: 4rem 2rem; color: var(--muted); }}
+        .empty-icon {{ font-size: 3rem; margin-bottom: 1rem; }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>NSE ALPHA ARMY</h1>
-            <div class="date">{date}</div>
-        </header>
+<nav>
+    <div class="nav-logo">⚡ NSE ALPHA ARMY</div>
+    <div class="nav-links">
+        <a class="active" onclick="showPage('today', this)">Today</a>
+        <a onclick="showPage('history', this)">History</a>
+        <a onclick="showPage('performance', this)">Performance</a>
+    </div>
+    <div class="nav-meta">Updated {last_updated}</div>
+</nav>
 
-        <section class="market-context">
-            <div class="regime-badge">{market_context.get('regime', 'N/A')}</div>
-            <p>{market_context.get('regime_narrative', 'No market narrative available.')}</p>
-            <div style="display: flex; gap: 2rem; font-size: 0.8rem; color: var(--text-dim);">
-                <span>VIX: <b>{market_context.get('vix', 'N/A')}</b></span>
-                <span>NIFTY: <b>{market_context.get('nifty_close', 'N/A')}</b></span>
-                <span>FII Net: <b>{market_context.get('fii_net', 'N/A')} Cr</b></span>
-            </div>
-        </section>
+<!-- TODAY PAGE -->
+<div id="page-today" class="page active">
+    <div class="regime-banner">
+        <span class="regime-pill">{regime.replace('_', ' ')}</span>
+        <div class="regime-stats">
+            <div class="regime-stat"><span>NIFTY</span><b>{market_context.get('nifty_close', 0):,.0f}</b></div>
+            <div class="regime-stat"><span>VIX</span><b>{market_context.get('vix', 0):.1f}</b></div>
+            <div class="regime-stat"><span>FII</span><b>₹{market_context.get('fii_net', 0):,.0f} Cr</b></div>
+            <div class="regime-stat"><span>5d Ret</span><b>{market_context.get('nifty_5d_return', 0):+.2f}%</b></div>
+        </div>
+        <div class="regime-narrative">{market_context.get('regime_narrative', 'No narrative available.')}</div>
+        <div class="risk-mod">Risk mod: {risk_modifier}x</div>
+    </div>
 
-        <h2>Daily Signals</h2>
-        <div class="grid">
-"""
+    {'<div class="setups">' + ''.join(f'<span class="setup-pill">{s.replace("_"," ").title()}</span>' for s in active_setups) + '</div>' if active_setups else ''}
 
-    cards_html = ""
-    for trade in trades:
-        t_ticker = trade.get('ticker', 'N/A')
-        t_setup = trade.get('setup', 'N/A')
-        t_info = thesis.get(t_ticker, {})
-        t_thesis = t_info.get('thesis', 'No research thesis available.')
-        t_conf = t_info.get('confidence', 0)
-        
-        cards_html += f"""
-            <div class="card">
-                <div class="ticker">
-                    {t_ticker}
-                    <span class="setup">{t_setup}</span>
-                </div>
-                <div class="stats">
-                    <span class="stat-label">Entry</span><span class="stat-value">₹{trade.get('entry')}</span>
-                    <span class="stat-label">Stop Loss</span><span class="stat-value" style="color: var(--red)">₹{trade.get('sl')}</span>
-                    <span class="stat-label">Target</span><span class="stat-value">₹{trade.get('target')}</span>
-                    <span class="stat-label">Confidence</span><span class="stat-value">{t_conf}%</span>
-                </div>
-                <div class="thesis-text">
-                    "{t_thesis}"
-                </div>
-            </div>
-        """
+    <div class="section-title">Today's Signals — {date}</div>
 
-    html_footer = """
+    {'<div class="cards">' + cards_html + '</div>' if trades else '<div class="empty"><div class="empty-icon">📭</div><p>No trades generated today.</p></div>'}
+</div>
+
+<!-- HISTORY PAGE -->
+<div id="page-history" class="page">
+    <div class="section-title">Trade History — Last 30 Days</div>
+    {'<div class="table-wrap"><table><thead><tr><th>Date</th><th>Ticker</th><th>Setup</th><th>Entry</th><th>SL</th><th>Target</th><th>Qty</th><th>PnL R</th><th>Status</th></tr></thead><tbody>' + history_rows + '</tbody></table></div>' if recent_trades else '<div class="empty"><div class="empty-icon">📊</div><p>No trade history yet.</p></div>'}
+</div>
+
+<!-- PERFORMANCE PAGE -->
+<div id="page-performance" class="page">
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-label">30d Win Rate</div>
+            <div class="metric-value {'green' if win_rate_30d >= 50 else 'red'}">{win_rate_30d}%</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">30d Total R</div>
+            <div class="metric-value {'green' if total_r_30d >= 0 else 'red'}">{total_r_30d:+.2f}R</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Avg R/Trade</div>
+            <div class="metric-value {'green' if avg_r >= 0 else 'red'}">{avg_r:+.2f}R</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Trades Closed</div>
+            <div class="metric-value accent">{len(total_closed)}</div>
         </div>
     </div>
-</body>
-</html>
-"""
 
-    dashboard_path = os.path.join(reports_dir, "dashboard.html")
-    with open(dashboard_path, 'w') as f:
-        f.write(html_header + cards_html + html_footer)
-    print(f"Dashboard generated: {dashboard_path}")
+    <div class="charts-grid">
+        <div class="chart-card">
+            <div class="chart-title">Daily P&L (R)</div>
+            <canvas id="chartR" height="180"></canvas>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">Win Rate %</div>
+            <canvas id="chartWR" height="180"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+function showPage(id, el) {{
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    el.classList.add('active');
+}}
+
+const labels = {chart_labels};
+const rData = {chart_r};
+const wrData = {chart_wr};
+
+const chartDefaults = {{
+    responsive: true,
+    plugins: {{ legend: {{ display: false }} }},
+    scales: {{
+        x: {{ grid: {{ color: '#252535' }}, ticks: {{ color: '#565f89', font: {{ size: 10 }} }} }},
+        y: {{ grid: {{ color: '#252535' }}, ticks: {{ color: '#565f89', font: {{ size: 10 }} }} }}
+    }}
+}};
+
+new Chart(document.getElementById('chartR'), {{
+    type: 'bar',
+    data: {{ labels, datasets: [{{ data: rData, backgroundColor: rData.map(v => v >= 0 ? '#9ece6a55' : '#f7768e55'), borderColor: rData.map(v => v >= 0 ? '#9ece6a' : '#f7768e'), borderWidth: 1, borderRadius: 4 }}] }},
+    options: chartDefaults
+}});
+
+new Chart(document.getElementById('chartWR'), {{
+    type: 'line',
+    data: {{ labels, datasets: [{{ data: wrData, borderColor: '#7aa2f7', backgroundColor: '#7aa2f715', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#7aa2f7' }}] }},
+    options: {{ ...chartDefaults, scales: {{ ...chartDefaults.scales, y: {{ ...chartDefaults.scales.y, min: 0, max: 100 }} }} }}
+}});
+</script>
+</body>
+</html>"""
+
+    # Write to docs/index.html for GitHub Pages
+    os.makedirs("docs", exist_ok=True)
+    out_path = "docs/index.html"
+    with open(out_path, 'w') as f:
+        f.write(html)
+    print(f"Dashboard generated: {out_path}")
+
+    # Also write dated archive
+    archive_dir = "docs/history"
+    os.makedirs(archive_dir, exist_ok=True)
+    archive_path = os.path.join(archive_dir, f"{date}.html")
+    with open(archive_path, 'w') as f:
+        f.write(html)
+    print(f"Archive saved: {archive_path}")
+
 
 if __name__ == "__main__":
     generate_dashboard()
