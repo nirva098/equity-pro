@@ -80,20 +80,26 @@ def run_validator(state: dict) -> dict:
 
         # --- Phase 3: Hallucination check ---
         ticker_thesis = thesis.get(ticker, {})
-        thesis_text = ticker_thesis.get('thesis', '')
+        thesis_text   = ticker_thesis.get('thesis', '')
+        catalyst      = trade.get('catalyst', ticker_thesis.get('catalyst', 'none'))
+        confidence    = trade.get('confidence', ticker_thesis.get('confidence', 5))
         fund = fundamentals.get(ticker, {})
         tech = technicals.get(ticker, {})
+
+        # Gate: no catalyst + low confidence = speculative, reject
+        if catalyst == 'none' and confidence <= 5:
+            print(f"REJECTED {ticker}: no catalyst identified and confidence={confidence}")
+            continue
 
         if thesis_text and thesis_text != 'Error generating thesis':
             unverified = _check_thesis_hallucination(thesis_text, fund, tech)
             if unverified:
                 print(f"WARNING {ticker}: Thesis has unverified numbers: {unverified}")
-                # Flag for retry but still include the trade
-                # In a full graph implementation, this would route back to thesis_agent
                 needs_thesis_retry = True
 
         cumulative_risk += trade_risk
         valid_trades.append(trade)
+        print(f"APPROVED {ticker}: catalyst='{catalyst}' confidence={confidence} risk=₹{trade_risk:.0f}")
 
     state['trades'] = valid_trades
 
