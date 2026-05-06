@@ -93,11 +93,11 @@ def run_quant_screener(state: dict) -> dict:
         close = tech.get('close', 0)
 
         # --- Setup 1: value_breakout ---
-        # FCF_yield > 8% AND DCF_upside > 25% AND F_score > 7 AND price > 200DMA
+        # FCF_yield > 4% AND DCF_upside > 10% AND F_score >= 6 AND price > 200DMA
         if 'value_breakout' in active_setups:
-            if (fund.get('FCF_Yield_%', 0) > 8 and
-                    fund.get('DCF_Upside_%', 0) > 25 and
-                    fund.get('F_Score', 0) > 7 and
+            if (fund.get('FCF_Yield_%', 0) > 4 and
+                    fund.get('DCF_Upside_%', 0) > 10 and
+                    fund.get('F_Score', 0) >= 6 and
                     close > tech.get('DMA200', 0) and tech.get('DMA200', 0) > 0):
 
                 weight = memory['setups'].get('value_breakout', {}).get('weight', 0.5)
@@ -110,12 +110,12 @@ def run_quant_screener(state: dict) -> dict:
                 })
 
         # --- Setup 2: momentum_pullback ---
-        # 3M_ret > 15% AND RSI < 40 AND price > 50DMA AND ADX > 25
+        # 3M_ret > 10% AND RSI < 50 AND price > 50DMA AND ADX > 20
         if 'momentum_pullback' in active_setups:
-            if (tech.get('3M_Return_%', 0) > 15 and
-                    tech.get('RSI14', 50) < 40 and
+            if (tech.get('3M_Return_%', 0) > 10 and
+                    tech.get('RSI14', 50) < 50 and
                     close > tech.get('DMA50', 0) and tech.get('DMA50', 0) > 0 and
-                    tech.get('ADX14', 0) > 25):
+                    tech.get('ADX14', 0) > 20):
 
                 weight = memory['setups'].get('momentum_pullback', {}).get('weight', 0.5)
                 score = _composite_score(weight, fund, tech, 'momentum_pullback')
@@ -127,11 +127,11 @@ def run_quant_screener(state: dict) -> dict:
                 })
 
         # --- Setup 3: quality_compounder ---
-        # ROCE > 18% AND D/E < 0.5 AND 52w_high_distance < 5%
+        # ROCE > 15% AND D/E < 1.0 AND 52w_high_distance < 10%
         if 'quality_compounder' in active_setups:
-            if (fund.get('ROCE_%', 0) > 18 and
-                    fund.get('DE_Ratio', 999) < 0.5 and
-                    tech.get('Distance_to_52w_High_%', 100) < 5):
+            if (fund.get('ROCE_%', 0) > 15 and
+                    fund.get('DE_Ratio', 999) < 1.0 and
+                    tech.get('Distance_to_52w_High_%', 100) < 10):
 
                 weight = memory['setups'].get('quality_compounder', {}).get('weight', 0.5)
                 score = _composite_score(weight, fund, tech, 'quality_compounder')

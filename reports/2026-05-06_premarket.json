@@ -2,18 +2,277 @@
     "date": "2026-05-06",
     "market_context": {
         "regime": "risk_off",
-        "nifty_close": 24083.30078125,
-        "vix": 17.477500915527344,
+        "nifty_close": 24052.650390625,
+        "vix": 17.665000915527344,
         "fii_net": -3621.58,
         "us_futures_change": 0.8120017337603721,
-        "nifty_5d_return": 0.36507193102149327,
+        "nifty_5d_return": 0.2373390804569634,
         "event_flag": "none",
-        "regime_narrative": "The market is in a risk-off regime, largely influenced by substantial FII outflows, despite positive global cues from the US S&P 500 and a moderate India VIX."
+        "regime_narrative": "The market is in a risk-off regime, marked by significant FII selling and an elevated India VIX, reflecting increased investor caution. Nifty's flat 5-day return, despite positive global cues, underscores this sentiment."
     },
-    "candidates": [],
-    "trades": [],
-    "thesis": {},
-    "execution_log": [],
+    "candidates": [
+        {
+            "ticker": "PETRONET.NS",
+            "setup": "value_breakout",
+            "score": 2.462,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "COALINDIA.NS",
+            "setup": "quality_compounder",
+            "score": 2.339,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NATIONALUM.NS",
+            "setup": "value_breakout",
+            "score": 2.246,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NATIONALUM.NS",
+            "setup": "quality_compounder",
+            "score": 2.246,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "MARICO.NS",
+            "setup": "quality_compounder",
+            "score": 2.168,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "CGPOWER.NS",
+            "setup": "quality_compounder",
+            "score": 2.104,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "CAMS.NS",
+            "setup": "quality_compounder",
+            "score": 2.1,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "KALYANKJIL.NS",
+            "setup": "momentum_pullback",
+            "score": 2.012,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "INDUSTOWER.NS",
+            "setup": "value_breakout",
+            "score": 2.008,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NESTLEIND.NS",
+            "setup": "quality_compounder",
+            "score": 1.892,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "CUMMINSIND.NS",
+            "setup": "quality_compounder",
+            "score": 1.882,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "FEDERALBNK.NS",
+            "setup": "value_breakout",
+            "score": 1.861,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "NAM-INDIA.NS",
+            "setup": "quality_compounder",
+            "score": 1.856,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "BSE.NS",
+            "setup": "quality_compounder",
+            "score": 1.832,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "quality_compounder",
+            "score": 1.824,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "TORNTPHARM.NS",
+            "setup": "quality_compounder",
+            "score": 1.816,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "HINDZINC.NS",
+            "setup": "value_breakout",
+            "score": 1.802,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "SUNPHARMA.NS",
+            "setup": "quality_compounder",
+            "score": 1.77,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "BEL.NS",
+            "setup": "quality_compounder",
+            "score": 1.75,
+            "expected_R": 3.0
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "score": 1.738,
+            "expected_R": 3.0
+        }
+    ],
+    "trades": [
+        {
+            "ticker": "PETRONET.NS",
+            "setup": "value_breakout",
+            "entry": 282.55,
+            "sl": 274.33,
+            "target": 300.88,
+            "qty": 176,
+            "risk_per_share": 8.22,
+            "total_risk": 1446.72,
+            "expected_R": 2.23,
+            "kelly_f": 0.2,
+            "score": 2.462,
+            "news_sentiment": "neutral",
+            "confidence": 5,
+            "catalyst": "none"
+        },
+        {
+            "ticker": "COALINDIA.NS",
+            "setup": "quality_compounder",
+            "entry": 472.6,
+            "sl": 457.44,
+            "target": 502.93,
+            "qty": 105,
+            "risk_per_share": 15.17,
+            "total_risk": 1592.33,
+            "expected_R": 2.0,
+            "kelly_f": 0.2,
+            "score": 2.339,
+            "news_sentiment": "neutral",
+            "confidence": 5,
+            "catalyst": "none"
+        },
+        {
+            "ticker": "NATIONALUM.NS",
+            "setup": "value_breakout",
+            "entry": 413.6,
+            "sl": 393.6,
+            "target": 455.9,
+            "qty": 120,
+            "risk_per_share": 20.0,
+            "total_risk": 2400.0,
+            "expected_R": 2.12,
+            "kelly_f": 0.2,
+            "score": 2.246,
+            "news_sentiment": "neutral",
+            "confidence": 5,
+            "catalyst": "none"
+        },
+        {
+            "ticker": "NATIONALUM.NS",
+            "setup": "quality_compounder",
+            "entry": 413.6,
+            "sl": 393.6,
+            "target": 455.9,
+            "qty": 120,
+            "risk_per_share": 20.0,
+            "total_risk": 2400.0,
+            "expected_R": 2.12,
+            "kelly_f": 0.2,
+            "score": 2.246,
+            "news_sentiment": "neutral",
+            "confidence": 5,
+            "catalyst": "none"
+        },
+        {
+            "ticker": "KALYANKJIL.NS",
+            "setup": "momentum_pullback",
+            "entry": 406.6,
+            "sl": 390.72,
+            "target": 438.37,
+            "qty": 122,
+            "risk_per_share": 15.88,
+            "total_risk": 1937.97,
+            "expected_R": 2.0,
+            "kelly_f": 0.2,
+            "score": 2.012,
+            "news_sentiment": "neutral",
+            "confidence": 5,
+            "catalyst": "none"
+        }
+    ],
+    "thesis": {
+        "PETRONET.NS": {
+            "thesis": "Error generating thesis",
+            "catalyst": "none",
+            "confidence": 5
+        },
+        "COALINDIA.NS": {
+            "thesis": "Error generating thesis",
+            "catalyst": "none",
+            "confidence": 5
+        },
+        "NATIONALUM.NS": {
+            "thesis": "Error generating thesis",
+            "catalyst": "none",
+            "confidence": 5
+        },
+        "KALYANKJIL.NS": {
+            "thesis": "Error generating thesis",
+            "catalyst": "none",
+            "confidence": 5
+        }
+    },
+    "execution_log": [
+        {
+            "ticker": "PETRONET.NS",
+            "status": "filled",
+            "entry": 282.55,
+            "qty": 176,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "COALINDIA.NS",
+            "status": "filled",
+            "entry": 472.6,
+            "qty": 105,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "NATIONALUM.NS",
+            "status": "filled",
+            "entry": 413.6,
+            "qty": 120,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "NATIONALUM.NS",
+            "status": "filled",
+            "entry": 413.6,
+            "qty": 120,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "KALYANKJIL.NS",
+            "status": "filled",
+            "entry": 406.6,
+            "qty": 122,
+            "time": "09:15:00"
+        }
+    ],
     "active_setups": [
         "value_breakout",
         "momentum_pullback",

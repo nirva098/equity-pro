@@ -86,8 +86,8 @@ def run_validator(state: dict) -> dict:
         fund = fundamentals.get(ticker, {})
         tech = technicals.get(ticker, {})
 
-        # Gate: no catalyst + low confidence = speculative, reject
-        if catalyst == 'none' and confidence <= 5:
+        # Gate: no catalyst + low confidence = speculative, reject (unless LLM failed)
+        if catalyst == 'none' and confidence <= 5 and thesis_text != 'Error generating thesis':
             print(f"REJECTED {ticker}: no catalyst identified and confidence={confidence}")
             continue
 
