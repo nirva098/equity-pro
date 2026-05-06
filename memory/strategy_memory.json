@@ -1,19 +1,19 @@
 {
     "setups": {
         "value_breakout": {
-            "trades": 0,
-            "wins": 0,
+            "trades": 2,
+            "wins": 1,
             "weight": 0.5,
             "notes": ""
         },
         "momentum_pullback": {
-            "trades": 0,
-            "wins": 0,
-            "weight": 0.5,
+            "trades": 1,
+            "wins": 1,
+            "weight": 0.6667,
             "notes": ""
         },
         "quality_compounder": {
-            "trades": 0,
+            "trades": 2,
             "wins": 0,
             "weight": 0.5,
             "notes": ""
