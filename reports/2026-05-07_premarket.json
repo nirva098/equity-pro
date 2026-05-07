@@ -2,11 +2,11 @@
     "date": "2026-05-07",
     "market_context": {
         "regime": "risk_off",
-        "nifty_close": 24398.5,
-        "vix": 16.68000030517578,
+        "nifty_close": 24293.75,
+        "vix": 17.172500610351562,
         "fii_net": -5834.9000000000015,
         "us_futures_change": 1.4588330317794254,
-        "nifty_5d_return": 0.9134452926849976,
+        "nifty_5d_return": 0.48019392910081193,
         "event_flag": "none",
         "regime_narrative": ""
     },
@@ -16,8 +16,7 @@
     "execution_log": [],
     "active_setups": [
         "value_breakout",
-        "momentum_pullback",
-        "quality_compounder"
+        "momentum_pullback"
     ],
-    "risk_modifier": 0.75
+    "risk_modifier": 0.8
 }
