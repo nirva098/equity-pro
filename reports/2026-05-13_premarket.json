@@ -1,0 +1,23 @@
+{
+    "date": "2026-05-13",
+    "market_context": {
+        "regime": "risk_off",
+        "nifty_close": 23483.0,
+        "vix": 19.47249984741211,
+        "fii_net": -1959.3899999999994,
+        "us_futures_change": -0.16026088601544933,
+        "nifty_5d_return": -3.485064274009295,
+        "event_flag": "none",
+        "regime_narrative": "The market is firmly in a risk-off regime, driven by a high India VIX, a significant Nifty correction of nearly 3.5% over the past five days, and substantial FII outflows."
+    },
+    "candidates": [],
+    "trades": [],
+    "thesis": {},
+    "execution_log": [],
+    "active_setups": [
+        "value_breakout",
+        "momentum_pullback",
+        "quality_compounder"
+    ],
+    "risk_modifier": 0.75
+}
