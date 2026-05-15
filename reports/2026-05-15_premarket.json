@@ -1,0 +1,22 @@
+{
+    "date": "2026-05-15",
+    "market_context": {
+        "regime": "risk_on",
+        "nifty_close": 23755.099609375,
+        "vix": 18.43000030517578,
+        "fii_net": 187.46000000000276,
+        "us_futures_change": 0.7655604577358364,
+        "nifty_5d_return": -1.7415956405254438,
+        "event_flag": "none",
+        "regime_narrative": "The market is currently in a risk-on regime, supported by positive FII inflows and a strong US S&P 500 performance. Despite a negative NIFTY 5-day return and an elevated India VIX at 18.43, the overall sentiment remains risk-on with no specific market events flagged."
+    },
+    "candidates": [],
+    "trades": [],
+    "thesis": {},
+    "execution_log": [],
+    "active_setups": [
+        "value_breakout",
+        "momentum_pullback"
+    ],
+    "risk_modifier": 0.75
+}
