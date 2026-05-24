@@ -73,3 +73,65 @@ def find_pivots(df: pd.DataFrame) -> dict:
     s1 = (2 * pp) - prev_high
     
     return {'PP': float(pp), 'R1': float(r1), 'S1': float(s1)}
+
+def calc_vwap(df: pd.DataFrame) -> float:
+    """
+    Calculates VWAP using the full history as a long-term anchor.
+    Uses typical price (H+L+C)/3 weighted by volume.
+    """
+    if df.empty or 'Volume' not in df.columns:
+        return 0.0
+    typical = (df['High'] + df['Low'] + df['Close']) / 3
+    vwap = (typical * df['Volume']).sum() / df['Volume'].sum()
+    return round(float(vwap), 2) if not pd.isna(vwap) else 0.0
+
+
+def find_swing_levels(df: pd.DataFrame, n: int = 5, lookback: int = 90) -> dict:
+    """
+    Identifies swing highs (resistance) and swing lows (support) from recent price history.
+
+    A swing high = a candle whose High is the local maximum among the N candles on each side.
+    A swing low  = a candle whose Low is the local minimum among the N candles on each side.
+
+    Returns the two nearest swing highs above current price and the nearest swing low
+    below current price — anchored to real market structure, not ATR multiples.
+
+    Args:
+        df:       OHLCV DataFrame, most-recent candle last.
+        n:        Wing length for pivot detection (5 = robust for daily swing trading).
+        lookback: How many recent candles to scan (90 ≈ 4.5 months of daily data).
+
+    Returns:
+        dict: Swing_High_1, Swing_High_2, Swing_Low_1 (floats; 0.0 if not found)
+    """
+    if len(df) < 2 * n + 1:
+        return {'Swing_High_1': 0.0, 'Swing_High_2': 0.0, 'Swing_Low_1': 0.0}
+
+    recent = df.tail(lookback).reset_index(drop=True)
+    close = float(recent['Close'].iloc[-1])
+
+    swing_highs: list[float] = []
+    swing_lows: list[float] = []
+
+    for i in range(n, len(recent) - n):
+        hi = float(recent['High'].iloc[i])
+        lo = float(recent['Low'].iloc[i])
+
+        # Swing high: this bar's high is the maximum in the [i-n, i+n] window
+        if hi == recent['High'].iloc[i - n: i + n + 1].max():
+            swing_highs.append(round(hi, 2))
+
+        # Swing low: this bar's low is the minimum in the [i-n, i+n] window
+        if lo == recent['Low'].iloc[i - n: i + n + 1].min():
+            swing_lows.append(round(lo, 2))
+
+    # Resistance levels: swing highs strictly above current close (>0.2% gap), ascending
+    resistances = sorted(set(h for h in swing_highs if h > close * 1.002))
+    # Support levels: swing lows strictly below current close (<0.2% gap), descending
+    supports = sorted(set(l for l in swing_lows if l < close * 0.998), reverse=True)
+
+    return {
+        'Swing_High_1': resistances[0] if len(resistances) > 0 else 0.0,
+        'Swing_High_2': resistances[1] if len(resistances) > 1 else 0.0,
+        'Swing_Low_1':  supports[0]    if len(supports) > 0    else 0.0,
+    }

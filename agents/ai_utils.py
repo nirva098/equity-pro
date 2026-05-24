@@ -53,12 +53,17 @@ def compact_candidate(candidate: dict, fundamentals: dict, technicals: dict) -> 
             "ATR14": tech.get("ATR14"),
             "RSI14": tech.get("RSI14"),
             "ADX14": tech.get("ADX14"),
+            "DMA20": tech.get("DMA20"),
             "DMA50": tech.get("DMA50"),
             "DMA200": tech.get("DMA200"),
             "3M_Return_%": tech.get("3M_Return_%"),
             "Distance_to_52w_High_%": tech.get("Distance_to_52w_High_%"),
             "Volume_Ratio": tech.get("Volume_Ratio"),
             "Breakout": tech.get("Breakout"),
+            "Swing_High_1": tech.get("Swing_High_1"),
+            "Swing_High_2": tech.get("Swing_High_2"),
+            "Swing_Low_1": tech.get("Swing_Low_1"),
+            "VWAP": tech.get("VWAP"),
         },
     }
 

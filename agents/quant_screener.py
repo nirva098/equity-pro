@@ -164,11 +164,13 @@ def run_quant_screener(state: dict) -> dict:
 
         # --- Setup 2: momentum_pullback ---
         if 'momentum_pullback' in active_setups:
+            rsi = tech.get('RSI14', 50)
             hard_pass = (
                 tech.get('3M_Return_%', 0) > 10 and
-                tech.get('RSI14', 50) < 50 and
+                40 < rsi < 60 and          # healthy pullback zone (not just oversold)
                 close > tech.get('DMA50', 0) > 0 and
-                tech.get('ADX14', 0) > 20
+                tech.get('ADX14', 0) > 20 and
+                tech.get('MACD_Bullish_Cross', False)  # momentum inflecting back up
             )
             weight = memory['setups'].get('momentum_pullback', {}).get('weight', 0.5)
             score, reasons = _candidate_score(weight, fund, tech, 'momentum_pullback', ranks)
@@ -187,7 +189,8 @@ def run_quant_screener(state: dict) -> dict:
             hard_pass = (
                 fund.get('ROCE_%', 0) > 15 and
                 fund.get('DE_Ratio', 999) < 1.0 and
-                tech.get('Distance_to_52w_High_%', 100) < 10
+                tech.get('Distance_to_52w_High_%', 100) < 10 and
+                fund.get('Revenue_Growth_%', 0) > 8   # revenue growth gate (avoid value traps)
             )
             weight = memory['setups'].get('quality_compounder', {}).get('weight', 0.5)
             score, reasons = _candidate_score(weight, fund, tech, 'quality_compounder', ranks)

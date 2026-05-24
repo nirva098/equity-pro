@@ -1,7 +1,7 @@
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tools.yfinance_tool import get_nse_data
-from tools.technicals import calc_atr, calc_rsi, calc_adx, calc_dma, find_pivots
+from tools.technicals import calc_atr, calc_rsi, calc_adx, calc_dma, find_pivots, find_swing_levels, calc_vwap
 
 
 def _fetch_ticker_technicals(ticker: str) -> tuple:
@@ -19,6 +19,8 @@ def _fetch_ticker_technicals(ticker: str) -> tuple:
         adx   = calc_adx(hist)
         dmas  = calc_dma(hist)
         pivots = find_pivots(hist)
+        swings = find_swing_levels(hist)
+        vwap   = calc_vwap(hist)
 
         close   = float(hist['Close'].iloc[-1])
         vol     = float(hist['Volume'].iloc[-1])
@@ -56,6 +58,10 @@ def _fetch_ticker_technicals(ticker: str) -> tuple:
             'DMA200':                 round(dmas.get('DMA200', 0), 2),
             'Pivot_R1':               round(pivots['R1'], 2),
             'Pivot_S1':               round(pivots['S1'], 2),
+            'Swing_High_1':           swings['Swing_High_1'],
+            'Swing_High_2':           swings['Swing_High_2'],
+            'Swing_Low_1':            swings['Swing_Low_1'],
+            'VWAP':                   vwap,
             'Breakout':               breakout,
             'MACD_Bullish_Cross':     macd_bullish,
             '3M_Return_%':            round(ret_3m, 1),
