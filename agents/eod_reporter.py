@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 import yfinance as yf
-from core.db import get_open_trades, update_trade_exit, log_daily_run
+from core.research_db import get_open_trades, update_trade_exit, log_daily_run
 from tools.llm_tool import get_llm
 from tools.telegram_notify import send_message
 
@@ -117,7 +117,7 @@ def run_eod_reporter(state: dict) -> dict:
 
     # 3. Update DB
     for result in pnl_results:
-        update_trade_exit(result['id'], result['exit_price'], result['pnl_R'])
+        update_trade_exit(result['id'], result['exit_price'], result['pnl_R'], result['pnl_abs'])
 
     # 4. Stats
     total_R = sum(r['pnl_R'] for r in pnl_results)

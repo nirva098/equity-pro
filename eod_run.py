@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime
-from core.db import init_db
+from core.research_db import init_research_db
 from core.graph import build_eod_graph
 
 def main():
@@ -11,7 +11,7 @@ def main():
     print("=" * 60)
 
     # 1. Init DB
-    init_db()
+    init_research_db()
 
     # 2. Build initial state
     today = datetime.now().strftime('%Y-%m-%d')

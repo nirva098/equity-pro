@@ -7,6 +7,10 @@ from agents.data_scout_fundamental import run_fundamental_scout
 from agents.data_scout_technical import run_technical_scout
 from agents.data_scout_news import run_news_scout
 from agents.quant_screener import run_quant_screener
+from agents.research_brief_agent import run_research_brief_agent
+from agents.catalyst_agent import run_catalyst_agent
+from agents.skeptic_agent import run_skeptic_agent
+from agents.ranking_agent import run_ranking_agent
 from agents.thesis_agent import run_thesis_agent
 from agents.risk_sizer import run_risk_sizer
 from agents.validator_node import run_validator
@@ -27,8 +31,9 @@ def _validator_router(state: dict) -> str:
 def build_premarket_graph():
     """
     Builds the premarket LangGraph:
-    START → supervisor → market_context → fundamental_scout → technical_scout
-          → screener → news_scout → thesis → sizer → validator
+    START → market_context → supervisor → fundamental_scout → technical_scout
+          → screener → news_scout → research_brief → catalyst → skeptic → ranking
+          → risk_sizer → thesis_agent → validator
           → {paper_executor | thesis_agent} → END
     """
     graph = StateGraph(dict)
@@ -40,21 +45,29 @@ def build_premarket_graph():
     graph.add_node("technical_scout", run_technical_scout)
     graph.add_node("screener", run_quant_screener)
     graph.add_node("news_scout", run_news_scout)
+    graph.add_node("research_brief", run_research_brief_agent)
+    graph.add_node("catalyst", run_catalyst_agent)
+    graph.add_node("skeptic", run_skeptic_agent)
+    graph.add_node("ranking", run_ranking_agent)
     graph.add_node("thesis_agent", run_thesis_agent)
     graph.add_node("risk_sizer", run_risk_sizer)
     graph.add_node("validator", run_validator)
     graph.add_node("paper_executor", run_paper_executor)
 
     # Set entry point
-    graph.set_entry_point("supervisor")
+    graph.set_entry_point("market_context")
 
     # Add edges (linear pipeline)
-    graph.add_edge("supervisor", "market_context")
-    graph.add_edge("market_context", "fundamental_scout")
+    graph.add_edge("market_context", "supervisor")
+    graph.add_edge("supervisor", "fundamental_scout")
     graph.add_edge("fundamental_scout", "technical_scout")
     graph.add_edge("technical_scout", "screener")
     graph.add_edge("screener", "news_scout")
-    graph.add_edge("news_scout", "risk_sizer")
+    graph.add_edge("news_scout", "research_brief")
+    graph.add_edge("research_brief", "catalyst")
+    graph.add_edge("catalyst", "skeptic")
+    graph.add_edge("skeptic", "ranking")
+    graph.add_edge("ranking", "risk_sizer")
     graph.add_edge("risk_sizer", "thesis_agent")
     graph.add_edge("thesis_agent", "validator")
 

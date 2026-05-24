@@ -1,5 +1,5 @@
 import json
-from core.db import get_closed_trades
+from core.research_db import get_closed_trades
 
 def run_rl_updater(state: dict) -> dict:
     """

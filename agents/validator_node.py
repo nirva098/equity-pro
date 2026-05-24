@@ -51,6 +51,7 @@ def run_validator(state: dict) -> dict:
     thesis = state.get('thesis', {})
     fundamentals = state.get('fundamentals', {})
     technicals = state.get('technicals', {})
+    llm_available = state.get('llm_available', bool(thesis))
 
     max_single_risk = CAPITAL * MAX_RISK_PER_TRADE           # ₹20,000 per trade
     max_portfolio_risk = CAPITAL * MAX_PORTFOLIO_RISK_PER_DAY  # ₹60,000 total daily
@@ -82,14 +83,20 @@ def run_validator(state: dict) -> dict:
         ticker_thesis = thesis.get(ticker, {})
         thesis_text   = ticker_thesis.get('thesis', '')
         catalyst      = trade.get('catalyst', ticker_thesis.get('catalyst', 'none'))
+        catalyst_type = trade.get('catalyst_type', ticker_thesis.get('catalyst_type', 'none'))
         confidence    = trade.get('confidence', ticker_thesis.get('confidence', 5))
         fund = fundamentals.get(ticker, {})
         tech = technicals.get(ticker, {})
 
-        # Gate: no catalyst + low confidence = speculative, reject (unless LLM failed)
-        if catalyst == 'none' and confidence <= 5 and thesis_text != 'Error generating thesis':
-            print(f"REJECTED {ticker}: no catalyst identified and confidence={confidence}")
-            continue
+        # The quant model is allowed to generate trades without a fresh headline.
+        # Reject only when the LLM explicitly reviewed the idea and assigned very low conviction.
+        if llm_available and thesis_text and thesis_text != 'Error generating thesis':
+            if catalyst == 'none' and confidence <= 3:
+                print(f"REJECTED {ticker}: LLM found no catalyst and confidence={confidence}")
+                continue
+            if confidence <= 2:
+                print(f"REJECTED {ticker}: LLM confidence too low ({confidence})")
+                continue
 
         if thesis_text and thesis_text != 'Error generating thesis':
             unverified = _check_thesis_hallucination(thesis_text, fund, tech)
@@ -99,7 +106,7 @@ def run_validator(state: dict) -> dict:
 
         cumulative_risk += trade_risk
         valid_trades.append(trade)
-        print(f"APPROVED {ticker}: catalyst='{catalyst}' confidence={confidence} risk=₹{trade_risk:.0f}")
+        print(f"APPROVED {ticker}: catalyst_type='{catalyst_type}' catalyst='{catalyst}' confidence={confidence} risk=₹{trade_risk:.0f}")
 
     state['trades'] = valid_trades
 

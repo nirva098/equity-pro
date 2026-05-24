@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import json
 from datetime import datetime
+from io import StringIO
 
 MARKET_DB_PATH = "data/market_data.db"
 
@@ -100,9 +101,9 @@ def get_fundamentals(ticker: str) -> dict:
     last_updated, info_str, fin_str, bs_str, cf_str = res
     info = json.loads(info_str) if info_str else {}
     try:
-        fin_df = pd.read_json(fin_str, orient='split') if fin_str else pd.DataFrame()
-        bs_df = pd.read_json(bs_str, orient='split') if bs_str else pd.DataFrame()
-        cf_df = pd.read_json(cf_str, orient='split') if cf_str else pd.DataFrame()
+        fin_df = pd.read_json(StringIO(fin_str), orient='split') if fin_str else pd.DataFrame()
+        bs_df = pd.read_json(StringIO(bs_str), orient='split') if bs_str else pd.DataFrame()
+        cf_df = pd.read_json(StringIO(cf_str), orient='split') if cf_str else pd.DataFrame()
     except Exception:
         return None
         

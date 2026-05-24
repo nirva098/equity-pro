@@ -12,9 +12,11 @@ The system is built on **LangGraph** and runs entirely locally or via GitHub Act
    - **Quant Screener**: Filters stocks through 3 predefined setups (`value_breakout`, `momentum_pullback`, `quality_compounder`).
    - **Risk Sizer**: ATR-based stop-loss/targets and Kelly criterion position sizing.
 3. **LLM Qual Layer (gpt-4o-mini)**: 
-   - Generates trade theses and confidence scores.
-   - Analyzes real-time news sentiment via Tavily.
-   - Validates outputs against deterministic data to prevent hallucinations.
+   - Builds structured research briefs for the top quant candidates.
+   - Extracts news/technical/sector catalysts for the shortlist.
+   - Runs a skeptic pass to identify bear cases, red flags, and kill-trade conditions.
+   - Produces a final PM-style ranking before risk sizing.
+   - Generates trade theses and validates outputs against deterministic data to prevent hallucinations.
 4. **Execution & Feedback Loop**: Paper trades are stored in SQLite. EOD reporter calculates PnL and updates strategy weights using Thompson Sampling (RL Loop).
 
 ---
@@ -90,6 +92,13 @@ You can also trigger it manually from the **Actions** tab by selecting "workflow
 ## Reading Reports
 
 - **Database**: All trades are tracked in `trades.db` (SQLite).
+- **Research Database**: Full run/candidate/recommendation audit trail is stored in `data/research.db`.
 - **Daily Reports**: Found in the `reports/` folder (JSON format).
+- **Research Dashboard**: Generate the DB-backed dashboard with:
+```bash
+PYTHONPATH=. python3 generate_research_dashboard.py
+```
+Then open `reports/research_dashboard.html`.
+- **AI Audit Tables**: `research_briefs`, `catalyst_checks`, `skeptic_reviews`, and `final_rankings` show how the AI research pod changed the quant shortlist before sizing.
 - **Trading Journal**: The LLM writes its daily learnings and analysis to `memory/trading_journal.md`.
 - **Strategy Weights**: The RL loop updates setup probabilities in `memory/strategy_memory.json`.

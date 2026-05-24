@@ -21,6 +21,7 @@ def run_risk_sizer(state: dict) -> dict:
     candidates     = state.get('candidates', [])
     technicals     = state.get('technicals', {})
     news_sentiment = state.get('news_sentiment', {})
+    risk_modifier  = max(0.25, min(1.5, float(state.get('risk_modifier', 1.0))))
     trades = []
 
     for candidate in candidates:
@@ -28,6 +29,7 @@ def run_risk_sizer(state: dict) -> dict:
         setup  = candidate['setup']
         score  = candidate.get('score', 1.0)
         tech   = technicals.get(ticker, {})
+        position_bias = candidate.get('position_bias', 'full')
 
         if not tech:
             continue
@@ -45,11 +47,12 @@ def run_risk_sizer(state: dict) -> dict:
             continue
         news_kelly_mod = 1.0 if sentiment == 'bullish' else 0.8  # neutral = 80% Kelly
 
-        # --- SL: 1.5×ATR or Pivot S1, whichever is closer to entry (tighter stop) ---
+        # --- SL: ATR-based, with nearby pivot support only when it is not unrealistically tight ---
         atr_sl    = entry - (1.5 * atr)
         pivot_sl  = tech.get('Pivot_S1', 0)
-        # Use pivot S1 if it's within 3×ATR of entry and above the ATR-based SL
-        if pivot_sl > atr_sl and pivot_sl < entry and (entry - pivot_sl) < 3 * atr:
+        # Use pivot S1 if it sits between 1×ATR and 3×ATR from entry.
+        # Stops tighter than 1×ATR usually create fake R:R and noisy exits.
+        if pivot_sl < entry and (1.0 * atr) <= (entry - pivot_sl) <= (3.0 * atr):
             sl = pivot_sl
         else:
             sl = atr_sl
@@ -72,7 +75,8 @@ def run_risk_sizer(state: dict) -> dict:
             kelly_f = (winrate * 3.0 - (1 - winrate) * 1.0) / 3.0
             kelly_f = max(kelly_f, 0.1)
 
-        kelly_f = kelly_f * news_kelly_mod
+        bias_mod = 0.5 if position_bias == 'half' else 1.0
+        kelly_f = kelly_f * news_kelly_mod * risk_modifier * bias_mod
 
         # --- Position sizing ---
         qty = int((CAPITAL * MAX_RISK_PER_TRADE * kelly_f) / risk_per_share)
@@ -95,6 +99,13 @@ def run_risk_sizer(state: dict) -> dict:
             'kelly_f':        round(kelly_f, 3),
             'score':          score,
             'news_sentiment': sentiment,
+            'quant_reasons':  candidate.get('quant_reasons', []),
+            'hard_pass':      candidate.get('hard_pass', False),
+            'ai_rank':        candidate.get('ai_rank'),
+            'ai_conviction':  candidate.get('ai_conviction'),
+            'why_now':        candidate.get('why_now'),
+            'why_this_over_others': candidate.get('why_this_over_others'),
+            'position_bias':  position_bias,
         })
 
     # Sort by score descending
@@ -102,18 +113,23 @@ def run_risk_sizer(state: dict) -> dict:
 
     # --- Setup diversity cap: max 2 per setup ---
     setup_counts: dict = {}
+    ticker_seen = set()
     diversified  = []
     for trade in trades:
         s = trade['setup']
+        if trade['ticker'] in ticker_seen:
+            print(f"  DUPLICATE: {trade['ticker']} skipped (already selected)")
+            continue
         if setup_counts.get(s, 0) >= 2:
             print(f"  DIVERSITY CAP: {trade['ticker']} skipped ({s} already has 2 trades)")
             continue
         setup_counts[s] = setup_counts.get(s, 0) + 1
+        ticker_seen.add(trade['ticker'])
         diversified.append(trade)
         if len(diversified) >= 5:
             break
 
     state['trades'] = diversified
     print(f"Risk sizer: {len(diversified)} trades selected "
-          f"({', '.join(f'{k}×{v}' for k,v in setup_counts.items())})")
+          f"({', '.join(f'{k}×{v}' for k,v in setup_counts.items())}); risk_modifier={risk_modifier}")
     return state
