@@ -3,8 +3,10 @@ import os
 import sqlite3
 from datetime import datetime, timedelta
 
-def _load_recent_trades(db_path="trades.db", days=30):
-    """Load recent closed trades from SQLite for the history page."""
+RESEARCH_DB = "data/research.db"
+
+def _load_recent_trades(db_path=RESEARCH_DB, days=30):
+    """Load recent trade recommendations from research.db."""
     if not os.path.exists(db_path):
         return []
     try:
@@ -12,15 +14,17 @@ def _load_recent_trades(db_path="trades.db", days=30):
             conn.row_factory = sqlite3.Row
             cutoff = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
             rows = conn.execute(
-                "SELECT * FROM trades WHERE date >= ? ORDER BY date DESC, id DESC LIMIT 100",
+                """SELECT * FROM trade_recommendations
+                   WHERE trade_date >= ?
+                   ORDER BY trade_date DESC, id DESC LIMIT 100""",
                 (cutoff,)
             ).fetchall()
             return [dict(r) for r in rows]
     except Exception:
         return []
 
-def _load_daily_runs(db_path="trades.db", days=30):
-    """Load recent daily run summaries."""
+def _load_daily_runs(db_path=RESEARCH_DB, days=30):
+    """Load recent daily run summaries from research.db."""
     if not os.path.exists(db_path):
         return []
     try:
@@ -87,14 +91,14 @@ def generate_dashboard():
             <div class="stats">
                 <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹{trade.get('entry','—')}</span></div>
                 <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹{trade.get('sl','—')}</span></div>
-                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹{trade.get('target','—')}</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹{trade.get('target','—')} <span class="target-src" title="Target source">[{trade.get('target_source','atr')}]</span></span></div>
                 <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">{trade.get('qty','—')}</span></div>
                 <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹{trade.get('total_risk','—')}</span></div>
                 <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">{rr:.1f}x</span></div>
                 <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">{trade.get('kelly_f','—')}</span></div>
                 <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">{confidence}/10</span></div>
             </div>
-            {'<div class="thesis">' + t_thesis + '</div>' if t_thesis else ''}
+            {('<div class="thesis">' + t_thesis + '</div>') if t_thesis else ''}
         </div>"""
 
     # History rows
@@ -102,11 +106,12 @@ def generate_dashboard():
     for t in recent_trades:
         pnl_r = t.get('pnl_R') or 0
         status = t.get('status', '')
+        date_col = t.get('trade_date') or t.get('date', '')
         pnl_class = 'green' if pnl_r > 0 else ('red' if pnl_r < 0 else '')
         pnl_display = f"{pnl_r:+.2f}R" if status == 'closed' else '—'
         history_rows += f"""
         <tr>
-            <td>{t.get('date','')}</td>
+            <td>{date_col}</td>
             <td><b>{t.get('ticker','').replace('.NS','')}</b></td>
             <td><span class="badge-sm">{t.get('setup','').replace('_',' ')}</span></td>
             <td>₹{t.get('entry','')}</td>

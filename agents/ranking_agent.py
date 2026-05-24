@@ -5,7 +5,7 @@ from tools.llm_tool import get_llm
 
 
 MAX_RANKING_CANDIDATES = 12
-MAX_FINAL_CANDIDATES = 8
+MAX_FINAL_CANDIDATES = 10
 
 
 def _numeric(value, default=0.0) -> float:
@@ -73,9 +73,15 @@ def run_ranking_agent(state: dict) -> dict:
     if not llm:
         rankings = _deterministic_rank(payload)
     else:
-        prompt = f"""You are the portfolio manager making the final pre-market shortlist.
-Rank the trade candidates using quant evidence, catalyst strength, skeptic review, market regime, diversification, and risk/reward.
-Reject weak ideas. Prefer a small number of high-quality recommendations over filling slots.
+        prompt = f"""You are the portfolio manager making the final pre-market shortlist for NSE swing trades.
+Rank candidates using quant evidence, catalyst strength, skeptic review, market regime, and risk/reward.
+
+IMPORTANT RULES:
+- You MUST mark at least 3 candidates as "trade" unless fewer than 3 exist. The risk sizer will enforce R:R minimums — your job is conviction-based ordering, not binary gating.
+- Only use "reject" for candidates with active fraud risk, governance issues, or where the skeptic gave kill_trade=true.
+- Use "watchlist" for stocks that are good but not actionable today (e.g., needs a better entry, catalyst unclear).
+- In a risk_off regime, prefer quality compounders and stocks near support. Reduce position_bias to "half" for higher-risk setups.
+- Do NOT reject a stock solely because the market is risk_off.
 
 Market context:
 {json.dumps(market_context, indent=2, default=str)}
@@ -92,9 +98,9 @@ Return ONLY valid JSON:
       "rank": 1,
       "decision": "trade|watchlist|reject",
       "conviction": <integer 1-10>,
-      "why_now": "specific reason",
+      "why_now": "specific reason this stock is actionable TODAY",
       "why_this_over_others": "relative ranking reason",
-      "position_bias": "full|half|watchlist"
+      "position_bias": "full|half"
     }}
   ]
 }}

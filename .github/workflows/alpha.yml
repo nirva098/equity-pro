@@ -56,7 +56,7 @@ jobs:
 
       - name: Initialize Database
         run: |
-          python -c "from core.db import init_db; init_db()"
+          python -c "from core.research_db import init_research_db; init_research_db()"
           python -c "from core.market_db import init_market_db; init_market_db()"
 
       - name: Run Market Data Ingestion
@@ -78,7 +78,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add trades.db data/market_data.db memory/ reports/ docs/
+          git add data/research.db data/market_data.db memory/ reports/ docs/
           git diff-index --quiet HEAD || git commit -m "Automated update [$(date +%Y-%m-%d)]: db, memory, reports, dashboard"
           git push origin main
         continue-on-error: true # Don't fail if there are no changes to commit
@@ -88,7 +88,7 @@ jobs:
         with:
           name: trading-artifacts
           path: |
-            trades.db
+            data/research.db
             reports/
             docs/
           retention-days: 30

@@ -50,9 +50,11 @@ def _pick_target(setup: str, entry: float, atr: float, tech: dict, fund: dict) -
         return round(entry + 2.5 * atr, 2)
 
     else:  # quality_compounder
-        # Use a conservative fraction of DCF upside as the swing target
+        # Use a conservative fraction of DCF upside as the swing target.
+        # Cap at 15% move from entry — beyond that is an investment thesis, not a swing.
         if dcf > 10:
-            dcf_target = entry * (1 + (dcf / 100) * 0.65)
+            raw_dcf_target = entry * (1 + (dcf / 100) * 0.65)
+            dcf_target = min(raw_dcf_target, entry * 1.15)
             if valid_target(dcf_target):
                 return round(dcf_target, 2)
         # Fall back to second swing high (quality stocks tend to retest prior multi-month highs)
