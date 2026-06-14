@@ -108,6 +108,7 @@ def run_eod_reporter(state: dict) -> dict:
     if not open_trades:
         print("No open trades found for today.")
         state['eod_pnl'] = {'trades': 0, 'total_R': 0, 'win_rate': 0}
+        log_daily_run(today, regime, 0, 0, 0, "No open trades for today.")
         return state
 
     print(f"Processing {len(open_trades)} open trades...")

@@ -17,7 +17,7 @@ The system is built on **LangGraph** and runs entirely locally or via GitHub Act
    - Runs a skeptic pass to identify bear cases, red flags, and kill-trade conditions.
    - Produces a final PM-style ranking before risk sizing.
    - Generates trade theses and validates outputs against deterministic data to prevent hallucinations.
-4. **Execution & Feedback Loop**: Paper trades are stored in SQLite. EOD reporter calculates PnL and updates strategy weights using Thompson Sampling (RL Loop).
+4. **Execution & Feedback Loop**: Paper trades are stored in SQLite. EOD reporter calculates PnL, judges setup performance, and updates strategy weights using Thompson Sampling so the next cycle gets explicit nudges.
 
 ---
 
@@ -102,3 +102,4 @@ Then open `reports/research_dashboard.html`.
 - **AI Audit Tables**: `research_briefs`, `catalyst_checks`, `skeptic_reviews`, and `final_rankings` show how the AI research pod changed the quant shortlist before sizing.
 - **Trading Journal**: The LLM writes its daily learnings and analysis to `memory/trading_journal.md`.
 - **Strategy Weights**: The RL loop updates setup probabilities in `memory/strategy_memory.json`.
+- **Feedback Loop**: The dashboard now shows the latest EOD feedback summary, setup-level judge/nudge signals, and the current setup weights carried into the next cycle.

@@ -2,6 +2,7 @@ import json
 import os
 import sqlite3
 from datetime import datetime, timedelta
+from core.feedback_loop import load_strategy_memory
 
 RESEARCH_DB = "data/research.db"
 
@@ -39,6 +40,15 @@ def _load_daily_runs(db_path=RESEARCH_DB, days=30):
     except Exception:
         return []
 
+
+def _parse_feedback(raw: str | None) -> dict:
+    if not raw:
+        return {}
+    try:
+        return json.loads(raw)
+    except Exception:
+        return {}
+
 def generate_dashboard():
     # Find the latest premarket report
     reports_dir = "reports"
@@ -64,6 +74,8 @@ def generate_dashboard():
 
     recent_trades = _load_recent_trades()
     daily_runs = _load_daily_runs()
+    strategy_memory = load_strategy_memory()
+    latest_feedback = _parse_feedback(daily_runs[0].get('feedback_json')) if daily_runs else {}
 
     # Build regime color
     regime = market_context.get('regime', 'risk_on')
@@ -133,6 +145,18 @@ def generate_dashboard():
     win_rate_30d = round((total_wins / len(total_closed)) * 100) if total_closed else 0
     total_r_30d = round(sum(t.get('pnl_R') or 0 for t in total_closed), 2)
     avg_r = round(total_r_30d / len(total_closed), 2) if total_closed else 0
+    setup_rows = []
+    for setup, info in (strategy_memory.get('setups', {}) or {}).items():
+        setup_rows.append({
+            "setup": setup,
+            "weight": float(info.get("weight", 0.5) or 0.5),
+            "trades": int(info.get("trades", 0) or 0),
+            "wins": int(info.get("wins", 0) or 0),
+        })
+    setup_rows.sort(key=lambda row: row["weight"], reverse=True)
+    feedback_rows = latest_feedback.get("setups", [])
+    feedback_headline = latest_feedback.get("headline", "No EOD feedback captured yet.")
+    feedback_actions = latest_feedback.get("next_cycle", ["Run an EOD cycle to generate nudges for tomorrow."])
 
     last_updated = datetime.now().strftime('%Y-%m-%d %H:%M IST')
 
@@ -234,6 +258,19 @@ def generate_dashboard():
         /* SETUP PILLS */
         .setups {{ display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }}
         .setup-pill {{ padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--accent); color: var(--accent); background: rgba(122,162,247,0.08); }}
+        .feedback-grid {{ display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.25rem; margin-top: 1.5rem; }}
+        .feedback-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }}
+        .feedback-copy {{ color: var(--muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem; }}
+        .feedback-list {{ display: grid; gap: 0.85rem; }}
+        .feedback-item {{ border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; background: var(--card); }}
+        .feedback-item strong {{ font-family: var(--mono); }}
+        .feedback-meta {{ font-family: var(--mono); font-size: 0.76rem; color: var(--muted); margin-top: 0.35rem; }}
+        .nudge-lean_in {{ color: var(--green); }}
+        .nudge-trim_risk {{ color: var(--red); }}
+        .nudge-stay_patient {{ color: var(--yellow); }}
+        .bullets {{ display: grid; gap: 0.7rem; color: var(--text); font-size: 0.88rem; }}
+        .bullets div {{ padding-left: 1rem; position: relative; }}
+        .bullets div::before {{ content: '•'; position: absolute; left: 0; color: var(--accent); }}
 
         /* EMPTY STATE */
         .empty {{ text-align: center; padding: 4rem 2rem; color: var(--muted); }}
@@ -307,6 +344,31 @@ def generate_dashboard():
         <div class="chart-card">
             <div class="chart-title">Win Rate %</div>
             <canvas id="chartWR" height="180"></canvas>
+        </div>
+    </div>
+
+    <div class="feedback-grid">
+        <div class="feedback-card">
+            <div class="section-title">Feedback Loop</div>
+            <div class="feedback-copy">{feedback_headline}</div>
+            {('<div class="feedback-list">' + ''.join(
+                f'<div class="feedback-item"><strong>{item.get("setup","").replace("_"," ")}</strong> '
+                f'<span class="nudge-{item.get("nudge","stay_patient")}">{item.get("nudge","stay_patient").replace("_"," ")}</span>'
+                f'<div class="feedback-meta">{item.get("trades",0)} trades | {item.get("win_rate",0)}% win rate | '
+                f'{item.get("total_R",0):+.2f}R | weight {item.get("weight_before",0.5):.2f} → {item.get("weight_after",0.5):.2f}</div>'
+                f'<div class="feedback-copy" style="margin:0.5rem 0 0;">{item.get("nudge_text","")}</div></div>'
+                for item in feedback_rows
+            ) + '</div>') if feedback_rows else '<div class="empty"><p>No setup-level feedback yet.</p></div>'}
+        </div>
+        <div class="feedback-card">
+            <div class="section-title">Next Cycle Nudges</div>
+            <div class="bullets">{''.join(f'<div>{item}</div>' for item in feedback_actions)}</div>
+            <div class="section-title" style="margin-top:1.5rem;">Setup Weights</div>
+            {('<div class="feedback-list">' + ''.join(
+                f'<div class="feedback-item"><strong>{row["setup"].replace("_"," ")}</strong>'
+                f'<div class="feedback-meta">weight {row["weight"]:.2f} | {row["wins"]}/{row["trades"]} wins</div></div>'
+                for row in setup_rows
+            ) + '</div>') if setup_rows else '<div class="empty"><p>No strategy memory yet.</p></div>'}
         </div>
     </div>
 </div>

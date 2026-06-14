@@ -1,3 +1,4 @@
+import json
 import sqlite3
 from datetime import datetime
 from core.config import DB_PATH
@@ -55,13 +56,16 @@ def update_trade_exit(trade_id: int, exit_price: float, pnl_R: float):
         conn.commit()
 
 def log_daily_run(date: str, regime: str, trades_taken: int,
-                  win_rate: float, total_R: float, journal_entry: str):
+                  win_rate: float, total_R: float, journal_entry: str, feedback: dict | None = None):
     """Insert or replace a daily run summary."""
     with sqlite3.connect(DB_PATH) as conn:
+        columns = {row[1] for row in conn.execute("PRAGMA table_info(daily_runs)")}
+        if "feedback_json" not in columns:
+            conn.execute("ALTER TABLE daily_runs ADD COLUMN feedback_json TEXT")
         conn.execute(
-            """INSERT OR REPLACE INTO daily_runs (date, regime, trades_taken, win_rate, total_R, journal_entry)
-               VALUES (?, ?, ?, ?, ?, ?)""",
-            (date, regime, trades_taken, win_rate, total_R, journal_entry)
+            """INSERT OR REPLACE INTO daily_runs (date, regime, trades_taken, win_rate, total_R, journal_entry, feedback_json)
+               VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (date, regime, trades_taken, win_rate, total_R, journal_entry, json.dumps(feedback or {}))
         )
         conn.commit()
 

@@ -33,7 +33,8 @@ def main():
     state = {
         'date': today,
         'market_context': market_context,
-        'eod_pnl': {}
+        'eod_pnl': {},
+        'feedback_loop': {}
     }
 
     # 3. Compile and run graph
@@ -45,11 +46,16 @@ def main():
 
     # 4. Print summary
     eod = result.get('eod_pnl', {})
+    feedback = result.get('feedback_loop', {})
     print(f"\n{'=' * 60}")
     print(f"Trades processed: {eod.get('trades', 0)}")
     print(f"Win rate: {eod.get('win_rate', 0):.0f}%")
     print(f"Total R: {eod.get('total_R', 0):.2f}")
     print(f"Total P&L: ₹{eod.get('total_pnl_abs', 0):,.0f}")
+    if feedback.get('headline'):
+        print(f"Feedback: {feedback['headline']}")
+        for line in feedback.get('next_cycle', [])[:3]:
+            print(f"  - {line}")
     print(f"{'=' * 60}")
 
 if __name__ == "__main__":

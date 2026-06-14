@@ -152,5 +152,6 @@ CREATE TABLE IF NOT EXISTS daily_runs (
     trades_taken INTEGER,
     win_rate REAL,
     total_R REAL,
-    journal_entry TEXT
+    journal_entry TEXT,
+    feedback_json TEXT
 );

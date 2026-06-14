@@ -1,5 +1,6 @@
 import json
-from core.research_db import get_closed_trades
+from core.research_db import get_closed_trades, update_daily_feedback
+from core.feedback_loop import build_feedback_loop, load_strategy_memory
 
 def run_rl_updater(state: dict) -> dict:
     """
@@ -16,16 +17,8 @@ def run_rl_updater(state: dict) -> dict:
     today = state.get('date', '')
     market_context = state.get('market_context', {})
 
-    # Load strategy memory
-    try:
-        with open('memory/strategy_memory.json', 'r') as f:
-            memory = json.load(f)
-    except Exception:
-        memory = {
-            "setups": {},
-            "regime_multipliers": {"risk_on": 1.0, "risk_off": 0.5, "high_vix": 0.3},
-            "special_events": []
-        }
+    memory_before = load_strategy_memory()
+    memory = json.loads(json.dumps(memory_before))
 
     # Get closed trades for today
     closed_trades = get_closed_trades(today) if today else []
@@ -84,4 +77,15 @@ def run_rl_updater(state: dict) -> dict:
         print(f"RL Updater: Error saving memory: {e}")
 
     state['strategy_memory'] = memory
+    feedback_loop = build_feedback_loop(
+        closed_trades=closed_trades,
+        memory_before=memory_before,
+        memory_after=memory,
+        regime=market_context.get('regime', 'unknown'),
+    )
+    state['feedback_loop'] = feedback_loop
+    if today:
+        update_daily_feedback(today, feedback_loop)
+    if feedback_loop.get('headline'):
+        print(f"Feedback Loop: {feedback_loop['headline']}")
     return state

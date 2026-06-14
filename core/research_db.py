@@ -23,6 +23,9 @@ def init_research_db(db_path: str = RESEARCH_DB_PATH) -> None:
     with sqlite3.connect(db_path) as conn:
         with open(SCHEMA_PATH, "r") as f:
             conn.executescript(f.read())
+        columns = {row[1] for row in conn.execute("PRAGMA table_info(daily_runs)")}
+        if "feedback_json" not in columns:
+            conn.execute("ALTER TABLE daily_runs ADD COLUMN feedback_json TEXT")
         conn.commit()
 
 
@@ -348,12 +351,23 @@ def get_closed_trades(date: str = None, db_path: str = RESEARCH_DB_PATH) -> list
         return [dict(row) for row in rows]
 
 def log_daily_run(date: str, regime: str, trades_taken: int,
-                  win_rate: float, total_R: float, journal_entry: str, db_path: str = RESEARCH_DB_PATH) -> None:
+                  win_rate: float, total_R: float, journal_entry: str,
+                  feedback: dict | None = None, db_path: str = RESEARCH_DB_PATH) -> None:
     """Insert or replace a daily run summary."""
     with sqlite3.connect(db_path) as conn:
         conn.execute(
-            """INSERT OR REPLACE INTO daily_runs (date, regime, trades_taken, win_rate, total_R, journal_entry)
-               VALUES (?, ?, ?, ?, ?, ?)""",
-            (date, regime, trades_taken, win_rate, total_R, journal_entry)
+            """INSERT OR REPLACE INTO daily_runs (
+                   date, regime, trades_taken, win_rate, total_R, journal_entry, feedback_json
+               ) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+            (date, regime, trades_taken, win_rate, total_R, journal_entry, _json(feedback or {}))
+        )
+        conn.commit()
+
+
+def update_daily_feedback(date: str, feedback: dict, db_path: str = RESEARCH_DB_PATH) -> None:
+    with sqlite3.connect(db_path) as conn:
+        conn.execute(
+            "UPDATE daily_runs SET feedback_json = ? WHERE date = ?",
+            (_json(feedback or {}), date),
         )
         conn.commit()

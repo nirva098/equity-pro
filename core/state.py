@@ -11,5 +11,6 @@ class AlphaState(TypedDict):
     trades: List[Dict[str, Any]]
     execution_log: List[Any]
     eod_pnl: Dict[str, Any]
+    feedback_loop: Dict[str, Any]
     strategy_memory: Dict[str, Any]
     next_agent: str
