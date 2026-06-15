@@ -123,7 +123,7 @@
         <a onclick="showPage('history', this)">History</a>
         <a onclick="showPage('performance', this)">Performance</a>
     </div>
-    <div class="nav-meta">Updated 2026-06-15 09:46 IST</div>
+    <div class="nav-meta">Updated 2026-06-15 16:06 IST</div>
 </nav>
 
 <!-- TODAY PAGE -->
@@ -765,12 +765,12 @@
     <div class="feedback-grid">
         <div class="feedback-card">
             <div class="section-title">Feedback Loop</div>
-            <div class="feedback-copy">No EOD feedback captured yet.</div>
+            <div class="feedback-copy">No closed trades today, so there is nothing to judge yet.</div>
             <div class="empty"><p>No setup-level feedback yet.</p></div>
         </div>
         <div class="feedback-card">
             <div class="section-title">Next Cycle Nudges</div>
-            <div class="bullets"><div>Run an EOD cycle to generate nudges for tomorrow.</div></div>
+            <div class="bullets"><div>Hold current setup mix and wait for fresh data.</div></div>
             <div class="section-title" style="margin-top:1.5rem;">Setup Weights</div>
             <div class="feedback-list"><div class="feedback-item"><strong>momentum pullback</strong><div class="feedback-meta">weight 0.67 | 1/1 wins</div></div><div class="feedback-item"><strong>value breakout</strong><div class="feedback-meta">weight 0.50 | 1/2 wins</div></div><div class="feedback-item"><strong>quality compounder</strong><div class="feedback-meta">weight 0.50 | 0/2 wins</div></div></div>
         </div>
@@ -785,9 +785,9 @@ function showPage(id, el) {
     el.classList.add('active');
 }
 
-const labels = [];
-const rData = [];
-const wrData = [];
+const labels = ["2026-06-15"];
+const rData = [0.0];
+const wrData = [0.0];
 
 const chartDefaults = {
     responsive: true,
