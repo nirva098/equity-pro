@@ -1,0 +1,1351 @@
+{
+    "run_id": "2026-07-24-premarket-65b5c1a4",
+    "date": "2026-07-24",
+    "market_context": {
+        "regime": "risk_off",
+        "nifty_close": 23671.55078125,
+        "vix": 14.367500305175781,
+        "fii_net": -2999.2299999999996,
+        "us_futures_change": -1.2089697334330867,
+        "nifty_5d_return": -2.7235218548406386,
+        "event_flag": "none",
+        "regime_narrative": ""
+    },
+    "candidates": [
+        {
+            "ticker": "PIDILITIND.NS",
+            "setup": "quality_compounder",
+            "score": 4.4548,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 28.5%",
+                "D/E 0.039",
+                "3.8% from 52w high"
+            ],
+            "ai_rank": 1,
+            "ai_decision": "trade",
+            "ai_conviction": 6.8,
+            "why_now": "ROCE 28.5%; D/E 0.039",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "NUVAMA.NS",
+            "setup": "momentum_pullback",
+            "score": 4.3477,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 43.2%",
+                "RSI 55.3",
+                "ADX 44.3"
+            ],
+            "ai_rank": 2,
+            "ai_decision": "trade",
+            "ai_conviction": 6.7,
+            "why_now": "3M return 43.2%; RSI 55.3",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "momentum_pullback",
+            "score": 4.3722,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 13.3%",
+                "RSI 41.0",
+                "ADX 36.1"
+            ],
+            "ai_rank": 3,
+            "ai_decision": "trade",
+            "ai_conviction": 6.4,
+            "why_now": "3M return 13.3%; RSI 41.0",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "NAM-INDIA.NS",
+            "setup": "quality_compounder",
+            "score": 4.3046,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 40.0%",
+                "D/E 0.016",
+                "10.4% from 52w high"
+            ],
+            "ai_rank": 4,
+            "ai_decision": "trade",
+            "ai_conviction": 6.3,
+            "why_now": "ROCE 40.0%; D/E 0.016",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "LUPIN.NS",
+            "setup": "quality_compounder",
+            "score": 4.2667,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 28.3%",
+                "D/E 0.295",
+                "5.2% from 52w high"
+            ],
+            "ai_rank": 5,
+            "ai_decision": "trade",
+            "ai_conviction": 6.3,
+            "why_now": "ROCE 28.3%; D/E 0.295",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "MARICO.NS",
+            "setup": "quality_compounder",
+            "score": 4.1917,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 38.8%",
+                "D/E 0.132",
+                "2.3% from 52w high"
+            ],
+            "ai_rank": 6,
+            "ai_decision": "trade",
+            "ai_conviction": 6.2,
+            "why_now": "ROCE 38.8%; D/E 0.132",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "CUMMINSIND.NS",
+            "setup": "quality_compounder",
+            "score": 4.1468,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 35.0%",
+                "D/E 0.004",
+                "8.2% from 52w high"
+            ],
+            "ai_rank": 7,
+            "ai_decision": "trade",
+            "ai_conviction": 6.1,
+            "why_now": "ROCE 35.0%; D/E 0.004",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "HEROMOTOCO.NS",
+            "setup": "value_breakout",
+            "score": 4.1133,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "FCF yield 7.34%",
+                "DCF upside 108.6%",
+                "below 200DMA"
+            ],
+            "ai_rank": 8,
+            "ai_decision": "trade",
+            "ai_conviction": 6.1,
+            "why_now": "FCF yield 7.34%; DCF upside 108.6%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "SOLARINDS.NS",
+            "setup": "quality_compounder",
+            "score": 4.2553,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 29.5%",
+                "D/E 0.288",
+                "2.9% from 52w high"
+            ],
+            "ai_rank": 9,
+            "ai_decision": "trade",
+            "ai_conviction": 6.0,
+            "why_now": "ROCE 29.5%; D/E 0.288",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "ZYDUSLIFE.NS",
+            "setup": "momentum_pullback",
+            "score": 4.1539,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 22.2%",
+                "RSI 40.1",
+                "ADX 47.2"
+            ],
+            "ai_rank": 10,
+            "ai_decision": "trade",
+            "ai_conviction": 5.8,
+            "why_now": "3M return 22.2%; RSI 40.1",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half"
+        }
+    ],
+    "screened_candidates": [
+        {
+            "ticker": "PIDILITIND.NS",
+            "setup": "quality_compounder",
+            "score": 4.4548,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 28.5%",
+                "D/E 0.039",
+                "3.8% from 52w high"
+            ]
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "momentum_pullback",
+            "score": 4.3722,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 13.3%",
+                "RSI 41.0",
+                "ADX 36.1"
+            ]
+        },
+        {
+            "ticker": "NUVAMA.NS",
+            "setup": "momentum_pullback",
+            "score": 4.3477,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 43.2%",
+                "RSI 55.3",
+                "ADX 44.3"
+            ]
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "quality_compounder",
+            "score": 4.3443,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 43.2%",
+                "D/E 0.004",
+                "9.5% from 52w high"
+            ]
+        },
+        {
+            "ticker": "LAURUSLABS.NS",
+            "setup": "momentum_pullback",
+            "score": 4.3407,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 43.8%",
+                "RSI 54.5",
+                "ADX 33.7"
+            ]
+        },
+        {
+            "ticker": "NAM-INDIA.NS",
+            "setup": "quality_compounder",
+            "score": 4.3046,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 40.0%",
+                "D/E 0.016",
+                "10.4% from 52w high"
+            ]
+        },
+        {
+            "ticker": "LUPIN.NS",
+            "setup": "quality_compounder",
+            "score": 4.2667,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 28.3%",
+                "D/E 0.295",
+                "5.2% from 52w high"
+            ]
+        },
+        {
+            "ticker": "SOLARINDS.NS",
+            "setup": "quality_compounder",
+            "score": 4.2553,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 29.5%",
+                "D/E 0.288",
+                "2.9% from 52w high"
+            ]
+        },
+        {
+            "ticker": "MARICO.NS",
+            "setup": "quality_compounder",
+            "score": 4.1917,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 38.8%",
+                "D/E 0.132",
+                "2.3% from 52w high"
+            ]
+        },
+        {
+            "ticker": "ZYDUSLIFE.NS",
+            "setup": "momentum_pullback",
+            "score": 4.1539,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 22.2%",
+                "RSI 40.1",
+                "ADX 47.2"
+            ]
+        },
+        {
+            "ticker": "KALYANKJIL.NS",
+            "setup": "quality_compounder",
+            "score": 4.1489,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 27.4%",
+                "D/E 0.97",
+                "4.9% from 52w high"
+            ]
+        },
+        {
+            "ticker": "CUMMINSIND.NS",
+            "setup": "quality_compounder",
+            "score": 4.1468,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 35.0%",
+                "D/E 0.004",
+                "8.2% from 52w high"
+            ]
+        },
+        {
+            "ticker": "HEROMOTOCO.NS",
+            "setup": "value_breakout",
+            "score": 4.1133,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "FCF yield 7.34%",
+                "DCF upside 108.6%",
+                "below 200DMA"
+            ]
+        },
+        {
+            "ticker": "PRESTIGE.NS",
+            "setup": "momentum_pullback",
+            "score": 4.1113,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 18.3%",
+                "RSI 45.5",
+                "ADX 41.1"
+            ]
+        },
+        {
+            "ticker": "BOSCHLTD.NS",
+            "setup": "quality_compounder",
+            "score": 4.1107,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 24.2%",
+                "D/E 0.008",
+                "1.7% from 52w high"
+            ]
+        },
+        {
+            "ticker": "CAMS.NS",
+            "setup": "quality_compounder",
+            "score": 4.0992,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 44.2%",
+                "D/E 0.049",
+                "11.9% from 52w high"
+            ]
+        },
+        {
+            "ticker": "PHOENIXLTD.NS",
+            "setup": "momentum_pullback",
+            "score": 4.0947,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 14.6%",
+                "RSI 48.6",
+                "ADX 53.4"
+            ]
+        },
+        {
+            "ticker": "PAGEIND.NS",
+            "setup": "quality_compounder",
+            "score": 4.093,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 61.5%",
+                "D/E 0.184",
+                "19.6% from 52w high"
+            ]
+        },
+        {
+            "ticker": "PIDILITIND.NS",
+            "setup": "momentum_pullback",
+            "score": 4.0864,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 12.3%",
+                "RSI 43.3",
+                "ADX 19.2"
+            ]
+        },
+        {
+            "ticker": "ETERNAL.NS",
+            "setup": "momentum_pullback",
+            "score": 4.0754,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 12.4%",
+                "RSI 55.8",
+                "ADX 60.6"
+            ]
+        }
+    ],
+    "research_briefs": {
+        "PIDILITIND.NS": {
+            "ticker": "PIDILITIND.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 28.5%; D/E 0.039; 3.8% from 52w high",
+            "quant_evidence": [
+                "ROCE 28.5%",
+                "D/E 0.039",
+                "3.8% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "OFSS.NS": {
+            "ticker": "OFSS.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 13.3%; RSI 41.0; ADX 36.1",
+            "quant_evidence": [
+                "3M return 13.3%",
+                "RSI 41.0",
+                "ADX 36.1"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "NUVAMA.NS": {
+            "ticker": "NUVAMA.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 43.2%; RSI 55.3; ADX 44.3",
+            "quant_evidence": [
+                "3M return 43.2%",
+                "RSI 55.3",
+                "ADX 44.3"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "LAURUSLABS.NS": {
+            "ticker": "LAURUSLABS.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 43.8%; RSI 54.5; ADX 33.7",
+            "quant_evidence": [
+                "3M return 43.8%",
+                "RSI 54.5",
+                "ADX 33.7"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "NAM-INDIA.NS": {
+            "ticker": "NAM-INDIA.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 40.0%; D/E 0.016; 10.4% from 52w high",
+            "quant_evidence": [
+                "ROCE 40.0%",
+                "D/E 0.016",
+                "10.4% from 52w high"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "LUPIN.NS": {
+            "ticker": "LUPIN.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 28.3%; D/E 0.295; 5.2% from 52w high",
+            "quant_evidence": [
+                "ROCE 28.3%",
+                "D/E 0.295",
+                "5.2% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "SOLARINDS.NS": {
+            "ticker": "SOLARINDS.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 29.5%; D/E 0.288; 2.9% from 52w high",
+            "quant_evidence": [
+                "ROCE 29.5%",
+                "D/E 0.288",
+                "2.9% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "MARICO.NS": {
+            "ticker": "MARICO.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 38.8%; D/E 0.132; 2.3% from 52w high",
+            "quant_evidence": [
+                "ROCE 38.8%",
+                "D/E 0.132",
+                "2.3% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "ZYDUSLIFE.NS": {
+            "ticker": "ZYDUSLIFE.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 22.2%; RSI 40.1; ADX 47.2",
+            "quant_evidence": [
+                "3M return 22.2%",
+                "RSI 40.1",
+                "ADX 47.2"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "KALYANKJIL.NS": {
+            "ticker": "KALYANKJIL.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 27.4%; D/E 0.97; 4.9% from 52w high",
+            "quant_evidence": [
+                "ROCE 27.4%",
+                "D/E 0.97",
+                "4.9% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "CUMMINSIND.NS": {
+            "ticker": "CUMMINSIND.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 35.0%; D/E 0.004; 8.2% from 52w high",
+            "quant_evidence": [
+                "ROCE 35.0%",
+                "D/E 0.004",
+                "8.2% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "HEROMOTOCO.NS": {
+            "ticker": "HEROMOTOCO.NS",
+            "setup": "value_breakout",
+            "bull_case": "FCF yield 7.34%; DCF upside 108.6%; below 200DMA",
+            "quant_evidence": [
+                "FCF yield 7.34%",
+                "DCF upside 108.6%",
+                "below 200DMA"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "PRESTIGE.NS": {
+            "ticker": "PRESTIGE.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 18.3%; RSI 45.5; ADX 41.1",
+            "quant_evidence": [
+                "3M return 18.3%",
+                "RSI 45.5",
+                "ADX 41.1"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "BOSCHLTD.NS": {
+            "ticker": "BOSCHLTD.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 24.2%; D/E 0.008; 1.7% from 52w high",
+            "quant_evidence": [
+                "ROCE 24.2%",
+                "D/E 0.008",
+                "1.7% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "CAMS.NS": {
+            "ticker": "CAMS.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 44.2%; D/E 0.049; 11.9% from 52w high",
+            "quant_evidence": [
+                "ROCE 44.2%",
+                "D/E 0.049",
+                "11.9% from 52w high"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "PHOENIXLTD.NS": {
+            "ticker": "PHOENIXLTD.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 14.6%; RSI 48.6; ADX 53.4",
+            "quant_evidence": [
+                "3M return 14.6%",
+                "RSI 48.6",
+                "ADX 53.4"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "PAGEIND.NS": {
+            "ticker": "PAGEIND.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 61.5%; D/E 0.184; 19.6% from 52w high",
+            "quant_evidence": [
+                "ROCE 61.5%",
+                "D/E 0.184",
+                "19.6% from 52w high"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "ETERNAL.NS": {
+            "ticker": "ETERNAL.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 12.4%; RSI 55.8; ADX 60.6",
+            "quant_evidence": [
+                "3M return 12.4%",
+                "RSI 55.8",
+                "ADX 60.6"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        }
+    },
+    "catalyst_checks": {
+        "PIDILITIND.NS": {
+            "ticker": "PIDILITIND.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 28.5%; D/E 0.039",
+            "catalyst_strength": 7,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 28.5%",
+                "D/E 0.039",
+                "3.8% from 52w high"
+            ],
+            "source_urls": [
+                "https://www.google.com/finance/beta/quote/PIDILITIND:NSE",
+                "https://sg.finance.yahoo.com/quote/PIDILITIND.NS",
+                "https://simplywall.st/stocks/in/materials/nse-pidilitind/pidilite-industries-shares/news/pidilite-industries-limited-nsepidilitind-just-released-its-1"
+            ]
+        },
+        "OFSS.NS": {
+            "ticker": "OFSS.NS",
+            "catalyst_type": "technical",
+            "catalyst": "3M return 13.3%; RSI 41.0",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "3M return 13.3%",
+                "RSI 41.0",
+                "ADX 36.1"
+            ],
+            "source_urls": [
+                "https://www.screener.in/company/OFSS/consolidated",
+                "https://www.moneycontrol.com/india/stockpricequote/computers-software/oraclefinancialservicessoftware/OFS01",
+                "https://www.cnbctv18.com/market/stocks/oracle-financial-services-software-ltd-share-price/OFS01"
+            ]
+        },
+        "NUVAMA.NS": {
+            "ticker": "NUVAMA.NS",
+            "catalyst_type": "technical",
+            "catalyst": "3M return 43.2%; RSI 55.3",
+            "catalyst_strength": 7,
+            "freshness": "technical",
+            "evidence": [
+                "3M return 43.2%",
+                "RSI 55.3",
+                "ADX 44.3"
+            ],
+            "source_urls": [
+                "https://trendlyne.com/equity/1715909/NUVAMA/nuvama-wealth-management-ltd",
+                "https://www.hdfcsec.com/market/company/nuvama-wealth-management-ltd-26648",
+                "https://ca.finance.yahoo.com/quote/NUVAMA.NS"
+            ]
+        },
+        "LAURUSLABS.NS": {
+            "ticker": "LAURUSLABS.NS",
+            "catalyst_type": "technical",
+            "catalyst": "3M return 43.8%; RSI 54.5",
+            "catalyst_strength": 5,
+            "freshness": "technical",
+            "evidence": [
+                "3M return 43.8%",
+                "RSI 54.5",
+                "ADX 33.7"
+            ],
+            "source_urls": [
+                "https://www.bajajfinserv.in/investments/lauruslabs-share-price",
+                "https://economictimes.indiatimes.com/laurus-labs-ltd/stocksupdate/companyid-61545.cms",
+                "https://www.youtube.com/watch?v=RnekTcjgdiQ"
+            ]
+        },
+        "NAM-INDIA.NS": {
+            "ticker": "NAM-INDIA.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 40.0%; D/E 0.016",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 40.0%",
+                "D/E 0.016",
+                "10.4% from 52w high"
+            ],
+            "source_urls": [
+                "https://www.business-standard.com/markets/news/nam-india-surges-9-hits-new-high-market-cap-touches-rs-50-000-crore-124121000634_1.html",
+                "https://www.indmoney.com/stocks/nippon-life-india-asset-management-ltd-share-price/results",
+                "https://m.economictimes.com/markets/stocks/earnings/nippon-life-india-asset-management-q1-results-profit-rises-19-to-rs-396-crore/articleshow/122952965.cms"
+            ]
+        },
+        "LUPIN.NS": {
+            "ticker": "LUPIN.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 28.3%; D/E 0.295",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 28.3%",
+                "D/E 0.295",
+                "5.2% from 52w high"
+            ],
+            "source_urls": [
+                "https://www.screener.in/company/LUPIN/consolidated",
+                "https://economictimes.indiatimes.com/lupin-ltd/stocksupdate/companyid-10743.cms",
+                "https://m.economictimes.com/markets/stocks/news/lupin-shares-jump-5-after-strong-q1-results-should-you-accumulate-more/amp_articleshow/123159432.cms"
+            ]
+        },
+        "SOLARINDS.NS": {
+            "ticker": "SOLARINDS.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 29.5%; D/E 0.288",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 29.5%",
+                "D/E 0.288",
+                "2.9% from 52w high"
+            ],
+            "source_urls": [
+                "https://trendlyne.com/equity/1263/SOLARINDS/solar-industries-india-ltd",
+                "https://www.livemint.com/market/market-stats/stocks-solar-industries-india-share-price-nse-bse-s0003719",
+                "https://www.screener.in/company/SOLARINDS/consolidated"
+            ]
+        },
+        "MARICO.NS": {
+            "ticker": "MARICO.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 38.8%; D/E 0.132",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 38.8%",
+                "D/E 0.132",
+                "2.3% from 52w high"
+            ],
+            "source_urls": [
+                "https://stockanalysis.com/quote/nse/MARICO",
+                "https://www.youtube.com/watch?v=yC3IfNaHxRw",
+                "https://sg.finance.yahoo.com/quote/MARICO.NS/news"
+            ]
+        },
+        "ZYDUSLIFE.NS": {
+            "ticker": "ZYDUSLIFE.NS",
+            "catalyst_type": "technical",
+            "catalyst": "3M return 22.2%; RSI 40.1",
+            "catalyst_strength": 5,
+            "freshness": "technical",
+            "evidence": [
+                "3M return 22.2%",
+                "RSI 40.1",
+                "ADX 47.2"
+            ],
+            "source_urls": [
+                "https://www.moneycontrol.com/news/business/markets/zydus-life-shares-rise-up-to-7-to-hit-52-week-high-on-strong-q4-results-mofs-sees-6-upside-13924848.html",
+                "https://www.business-standard.com/markets/capital-market-news/zydus-lifesciences-ltd-spurts-1-81-up-for-five-straight-sessions-126052900771_1.html",
+                "https://www.business-standard.com/companies/quarterly-results/zydus-lifesciences-ltd-quarterly-results-20883"
+            ]
+        },
+        "KALYANKJIL.NS": {
+            "ticker": "KALYANKJIL.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 27.4%; D/E 0.97",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 27.4%",
+                "D/E 0.97",
+                "4.9% from 52w high"
+            ],
+            "source_urls": [
+                "https://stockanalysis.com/quote/nse/KALYANKJIL",
+                "https://finance.yahoo.com/quote/KALYANKJIL.NS",
+                "https://www.bajajbroking.in/stock/kalyan-jewellers-ind-ltd-share-price"
+            ]
+        },
+        "CUMMINSIND.NS": {
+            "ticker": "CUMMINSIND.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 35.0%; D/E 0.004",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 35.0%",
+                "D/E 0.004",
+                "8.2% from 52w high"
+            ],
+            "source_urls": [
+                "https://finance.yahoo.com/quote/CUMMINSIND.NS",
+                "https://www.nseindia.com/get-quotes/derivatives?symbol=CUMMINSIND",
+                "https://www.hdfcsec.com/market/company/CumminsIndiaLtd-337"
+            ]
+        },
+        "HEROMOTOCO.NS": {
+            "ticker": "HEROMOTOCO.NS",
+            "catalyst_type": "technical",
+            "catalyst": "FCF yield 7.34%; DCF upside 108.6%",
+            "catalyst_strength": 7,
+            "freshness": "technical",
+            "evidence": [
+                "FCF yield 7.34%",
+                "DCF upside 108.6%",
+                "below 200DMA"
+            ],
+            "source_urls": [
+                "https://sg.finance.yahoo.com/news/hero-motocorp-ltd-soars-0-073000162.html",
+                "https://www.cnbctv18.com/market/stocks/hero-motocorp-share-price-after-q4-results-top-nifty-50-gainer-brokerages-expect-25-percent-more-rally-19408935.htm/amp",
+                "https://www.ndtvprofit.com/markets/q2-results-today-live-updates-tata-motors-pv-nsdl-eicher-motors-hero-motocorp-lg-electronics-voltas-earnings-share-price-liveblog-10725415/amp/1"
+            ]
+        }
+    },
+    "skeptic_reviews": {
+        "PIDILITIND.NS": {
+            "ticker": "PIDILITIND.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "OFSS.NS": {
+            "ticker": "OFSS.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "NUVAMA.NS": {
+            "ticker": "NUVAMA.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "LAURUSLABS.NS": {
+            "ticker": "LAURUSLABS.NS",
+            "bear_case": "weak latest volume",
+            "red_flags": [
+                "weak latest volume"
+            ],
+            "kill_trade": false,
+            "risk_penalty": 0.15,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "NAM-INDIA.NS": {
+            "ticker": "NAM-INDIA.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "LUPIN.NS": {
+            "ticker": "LUPIN.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "SOLARINDS.NS": {
+            "ticker": "SOLARINDS.NS",
+            "bear_case": "weak latest volume",
+            "red_flags": [
+                "weak latest volume"
+            ],
+            "kill_trade": false,
+            "risk_penalty": 0.15,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "MARICO.NS": {
+            "ticker": "MARICO.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "ZYDUSLIFE.NS": {
+            "ticker": "ZYDUSLIFE.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "KALYANKJIL.NS": {
+            "ticker": "KALYANKJIL.NS",
+            "bear_case": "RSI is overheated; weak latest volume",
+            "red_flags": [
+                "RSI is overheated",
+                "weak latest volume"
+            ],
+            "kill_trade": false,
+            "risk_penalty": 0.3,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "CUMMINSIND.NS": {
+            "ticker": "CUMMINSIND.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "HEROMOTOCO.NS": {
+            "ticker": "HEROMOTOCO.NS",
+            "bear_case": "RSI is overheated",
+            "red_flags": [
+                "RSI is overheated"
+            ],
+            "kill_trade": false,
+            "risk_penalty": 0.15,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        }
+    },
+    "final_rankings": [
+        {
+            "ticker": "PIDILITIND.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.8,
+            "why_now": "ROCE 28.5%; D/E 0.039",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 1
+        },
+        {
+            "ticker": "NUVAMA.NS",
+            "setup": "momentum_pullback",
+            "decision": "trade",
+            "conviction": 6.7,
+            "why_now": "3M return 43.2%; RSI 55.3",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 2
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "momentum_pullback",
+            "decision": "trade",
+            "conviction": 6.4,
+            "why_now": "3M return 13.3%; RSI 41.0",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 3
+        },
+        {
+            "ticker": "NAM-INDIA.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.3,
+            "why_now": "ROCE 40.0%; D/E 0.016",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 4
+        },
+        {
+            "ticker": "LUPIN.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.3,
+            "why_now": "ROCE 28.3%; D/E 0.295",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 5
+        },
+        {
+            "ticker": "MARICO.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.2,
+            "why_now": "ROCE 38.8%; D/E 0.132",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 6
+        },
+        {
+            "ticker": "CUMMINSIND.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.1,
+            "why_now": "ROCE 35.0%; D/E 0.004",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 7
+        },
+        {
+            "ticker": "HEROMOTOCO.NS",
+            "setup": "value_breakout",
+            "decision": "trade",
+            "conviction": 6.1,
+            "why_now": "FCF yield 7.34%; DCF upside 108.6%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 8
+        },
+        {
+            "ticker": "SOLARINDS.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.0,
+            "why_now": "ROCE 29.5%; D/E 0.288",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 9
+        },
+        {
+            "ticker": "ZYDUSLIFE.NS",
+            "setup": "momentum_pullback",
+            "decision": "trade",
+            "conviction": 5.8,
+            "why_now": "3M return 22.2%; RSI 40.1",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half",
+            "rank": 10
+        },
+        {
+            "ticker": "LAURUSLABS.NS",
+            "setup": "momentum_pullback",
+            "decision": "trade",
+            "conviction": 5.7,
+            "why_now": "3M return 43.8%; RSI 54.5",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half",
+            "rank": 11
+        },
+        {
+            "ticker": "KALYANKJIL.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 5.5,
+            "why_now": "ROCE 27.4%; D/E 0.97",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half",
+            "rank": 12
+        }
+    ],
+    "trades": [
+        {
+            "ticker": "NUVAMA.NS",
+            "setup": "momentum_pullback",
+            "entry": 1945.25,
+            "sl": 1864.77,
+            "target": 2117.43,
+            "target_source": "atr",
+            "qty": 25,
+            "risk_per_share": 80.48,
+            "total_risk": 2012.0,
+            "expected_R": 2.14,
+            "kelly_f": 0.2,
+            "score": 4.3477,
+            "news_sentiment": "neutral",
+            "quant_reasons": [
+                "3M return 43.2%",
+                "RSI 55.3",
+                "ADX 44.3"
+            ],
+            "hard_pass": false,
+            "ai_rank": 2,
+            "ai_conviction": 6.7,
+            "why_now": "3M return 43.2%; RSI 55.3",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "confidence": 6.7,
+            "catalyst": "3M return 43.2%; RSI 55.3",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry."
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "momentum_pullback",
+            "entry": 10832.16,
+            "sl": 10511.33,
+            "target": 11971.08,
+            "target_source": "atr",
+            "qty": 4,
+            "risk_per_share": 320.83,
+            "total_risk": 1283.32,
+            "expected_R": 3.55,
+            "kelly_f": 0.2,
+            "score": 4.3722,
+            "news_sentiment": "neutral",
+            "quant_reasons": [
+                "3M return 13.3%",
+                "RSI 41.0",
+                "ADX 36.1"
+            ],
+            "hard_pass": false,
+            "ai_rank": 3,
+            "ai_conviction": 6.4,
+            "why_now": "3M return 13.3%; RSI 41.0",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "confidence": 6.4,
+            "catalyst": "3M return 13.3%; RSI 41.0",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry."
+        },
+        {
+            "ticker": "LUPIN.NS",
+            "setup": "quality_compounder",
+            "entry": 2389.11,
+            "sl": 2260.3,
+            "target": 2747.48,
+            "target_source": "atr",
+            "qty": 20,
+            "risk_per_share": 128.81,
+            "total_risk": 2576.2,
+            "expected_R": 2.78,
+            "kelly_f": 0.2,
+            "score": 4.2667,
+            "news_sentiment": "neutral",
+            "quant_reasons": [
+                "ROCE 28.3%",
+                "D/E 0.295",
+                "5.2% from 52w high"
+            ],
+            "hard_pass": true,
+            "ai_rank": 5,
+            "ai_conviction": 6.3,
+            "why_now": "ROCE 28.3%; D/E 0.295",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "confidence": 6.3,
+            "catalyst": "ROCE 28.3%; D/E 0.295",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry."
+        },
+        {
+            "ticker": "SOLARINDS.NS",
+            "setup": "quality_compounder",
+            "entry": 18565.14,
+            "sl": 17835.0,
+            "target": 19962.64,
+            "target_source": "atr",
+            "qty": 2,
+            "risk_per_share": 730.14,
+            "total_risk": 1460.28,
+            "expected_R": 1.91,
+            "kelly_f": 0.2,
+            "score": 4.2553,
+            "news_sentiment": "neutral",
+            "quant_reasons": [
+                "ROCE 29.5%",
+                "D/E 0.288",
+                "2.9% from 52w high"
+            ],
+            "hard_pass": true,
+            "ai_rank": 9,
+            "ai_conviction": 6.0,
+            "why_now": "ROCE 29.5%; D/E 0.288",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "confidence": 6.0,
+            "catalyst": "ROCE 29.5%; D/E 0.288",
+            "catalyst_type": "technical",
+            "bear_case": "weak latest volume"
+        }
+    ],
+    "thesis": {
+        "NUVAMA.NS": {
+            "thesis": "Catalyst: 3M return 43.2%; RSI 55.3. Risk: Main risk is failed follow-through after entry.",
+            "catalyst": "3M return 43.2%; RSI 55.3",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "confidence": 6.7
+        },
+        "OFSS.NS": {
+            "thesis": "Catalyst: 3M return 13.3%; RSI 41.0. Risk: Main risk is failed follow-through after entry.",
+            "catalyst": "3M return 13.3%; RSI 41.0",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "confidence": 6.4
+        },
+        "LUPIN.NS": {
+            "thesis": "Catalyst: ROCE 28.3%; D/E 0.295. Risk: Main risk is failed follow-through after entry.",
+            "catalyst": "ROCE 28.3%; D/E 0.295",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "confidence": 6.3
+        },
+        "SOLARINDS.NS": {
+            "thesis": "Catalyst: ROCE 29.5%; D/E 0.288. Risk: weak latest volume",
+            "catalyst": "ROCE 29.5%; D/E 0.288",
+            "catalyst_type": "technical",
+            "bear_case": "weak latest volume",
+            "confidence": 6.0
+        }
+    },
+    "execution_log": [
+        {
+            "ticker": "NUVAMA.NS",
+            "status": "filled",
+            "entry": 1945.25,
+            "qty": 25,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "OFSS.NS",
+            "status": "filled",
+            "entry": 10832.16,
+            "qty": 4,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "LUPIN.NS",
+            "status": "filled",
+            "entry": 2389.11,
+            "qty": 20,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "SOLARINDS.NS",
+            "status": "filled",
+            "entry": 18565.14,
+            "qty": 2,
+            "time": "09:15:00"
+        }
+    ],
+    "active_setups": [
+        "value_breakout",
+        "momentum_pullback",
+        "quality_compounder"
+    ],
+    "risk_modifier": 1.0
+}
