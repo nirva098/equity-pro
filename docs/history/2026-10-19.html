@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSE Alpha Army — 2026-10-19</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg: #0d0d12;
+            --surface: #13131a;
+            --card: #1a1a24;
+            --border: #252535;
+            --accent: #7aa2f7;
+            --accent2: #bb9af7;
+            --green: #9ece6a;
+            --red: #f7768e;
+            --yellow: #e0af68;
+            --text: #c0caf5;
+            --muted: #565f89;
+            --mono: 'JetBrains Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+        /* NAV */
+        nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+        .nav-logo { font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; color: var(--accent); }
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-meta { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+
+        /* PAGES */
+        .page { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
+        .page.active { display: block; }
+
+        /* REGIME BANNER */
+        .regime-banner { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid #9ece6a; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+        .regime-pill { font-family: var(--mono); font-size: 0.8rem; font-weight: 600; color: #9ece6a; background: #9ece6a20; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.08em; }
+        .regime-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .regime-stat { font-size: 0.82rem; }
+        .regime-stat span { color: var(--muted); margin-right: 4px; }
+        .regime-narrative { color: var(--muted); font-size: 0.82rem; flex: 1; min-width: 200px; font-style: italic; }
+        .risk-mod { font-family: var(--mono); font-size: 0.8rem; color: var(--green); }
+
+        /* METRICS ROW */
+        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .metric { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }
+        .metric-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+        .metric-value { font-family: var(--mono); font-size: 1.5rem; font-weight: 600; }
+        .metric-value.green { color: var(--green); }
+        .metric-value.red { color: var(--red); }
+        .metric-value.accent { color: var(--accent); }
+
+        /* SECTION TITLE */
+        .section-title { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+        /* TRADE CARDS */
+        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; transition: all 0.2s ease; }
+        .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(122,162,247,0.08); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+        .ticker { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.02em; font-family: var(--mono); }
+        .badge { display: inline-block; background: var(--border); color: var(--accent2); padding: 3px 8px; border-radius: 5px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.05em; margin-top: 4px; }
+        .confidence-ring { width: 44px; height: 44px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--border) 0%); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; border: 2px solid var(--border); flex-shrink: 0; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; }
+        .stat { display: flex; flex-direction: column; }
+        .stat-label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-value { font-family: var(--mono); font-size: 0.9rem; font-weight: 500; margin-top: 1px; }
+        .stat-value.green { color: var(--green); }
+        .stat-value.red { color: var(--red); }
+        .thesis { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-style: italic; }
+
+        /* HISTORY TABLE */
+        .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        th { padding: 0.75rem 1rem; text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; border-bottom: 1px solid var(--border); }
+        td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-family: var(--mono); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: var(--card); }
+        .badge-sm { background: var(--border); color: var(--muted); padding: 2px 6px; border-radius: 4px; font-size: 0.68rem; white-space: nowrap; }
+        .green { color: var(--green); }
+        .red { color: var(--red); }
+        .status-open { color: var(--yellow); }
+        .status-closed { color: var(--muted); }
+
+        /* CHART */
+        .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .chart-title { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1.25rem; }
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+        @media (max-width: 700px) { .charts-grid { grid-template-columns: 1fr; } .cards { grid-template-columns: 1fr; } .regime-stats { gap: 1rem; } }
+
+        /* SETUP PILLS */
+        .setups { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .setup-pill { padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--accent); color: var(--accent); background: rgba(122,162,247,0.08); }
+        .feedback-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.25rem; margin-top: 1.5rem; }
+        .feedback-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+        .feedback-copy { color: var(--muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 1rem; }
+        .feedback-list { display: grid; gap: 0.85rem; }
+        .feedback-item { border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem; background: var(--card); }
+        .feedback-item strong { font-family: var(--mono); }
+        .feedback-meta { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); margin-top: 0.35rem; }
+        .nudge-lean_in { color: var(--green); }
+        .nudge-trim_risk { color: var(--red); }
+        .nudge-stay_patient { color: var(--yellow); }
+        .bullets { display: grid; gap: 0.7rem; color: var(--text); font-size: 0.88rem; }
+        .bullets div { padding-left: 1rem; position: relative; }
+        .bullets div::before { content: '•'; position: absolute; left: 0; color: var(--accent); }
+
+        /* EMPTY STATE */
+        .empty { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+        .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="nav-logo">⚡ NSE ALPHA ARMY</div>
+    <div class="nav-links">
+        <a class="active" onclick="showPage('today', this)">Today</a>
+        <a onclick="showPage('history', this)">History</a>
+        <a onclick="showPage('performance', this)">Performance</a>
+    </div>
+    <div class="nav-meta">Updated 2026-10-19 08:44 IST</div>
+</nav>
+
+<!-- TODAY PAGE -->
+<div id="page-today" class="page active">
+    <div class="regime-banner">
+        <span class="regime-pill">risk on</span>
+        <div class="regime-stats">
+            <div class="regime-stat"><span>NIFTY</span><b>22,879</b></div>
+            <div class="regime-stat"><span>VIX</span><b>14.9</b></div>
+            <div class="regime-stat"><span>FII</span><b>₹1,166 Cr</b></div>
+            <div class="regime-stat"><span>5d Ret</span><b>+2.31%</b></div>
+        </div>
+        <div class="regime-narrative"></div>
+        <div class="risk-mod">Risk mod: 1.0x</div>
+    </div>
+
+    <div class="setups"><span class="setup-pill">Value Breakout</span><span class="setup-pill">Momentum Pullback</span><span class="setup-pill">Quality Compounder</span></div>
+
+    <div class="section-title">Today's Signals — 2026-10-19</div>
+
+    <div class="cards">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">DIVISLAB</div>
+                    <span class="badge">MOMENTUM PULLBACK</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">4.30</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹9135.36</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹8945.17</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹9685.53 <span class="target-src" title="Target source">[atr]</span></span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">5</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹950.95</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">2.9x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">0.2</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">6.6/10</span></div>
+            </div>
+            <div class="thesis">Catalyst: 3M return 24.3%; RSI 37.4. Risk: Main risk is failed follow-through after entry.</div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">APLAPOLLO</div>
+                    <span class="badge">QUALITY COMPOUNDER</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">4.29</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹2146.24</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹2125.43</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹2298.89 <span class="target-src" title="Target source">[atr]</span></span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">23</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹478.63</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">7.3x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">0.2</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">6.3/10</span></div>
+            </div>
+            <div class="thesis">Catalyst: ROCE 28.0%; D/E 0.094. Risk: Main risk is failed follow-through after entry.</div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="ticker">MCX</div>
+                    <span class="badge">QUALITY COMPOUNDER</span>
+                </div>
+                <div class="confidence-ring" title="Conviction score">4.28</div>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-label">Entry</span><span class="stat-value">₹3152.51</span></div>
+                <div class="stat"><span class="stat-label">Stop Loss</span><span class="stat-value red">₹2999.45</span></div>
+                <div class="stat"><span class="stat-label">Target</span><span class="stat-value green">₹3625.39 <span class="target-src" title="Target source">[atr]</span></span></div>
+                <div class="stat"><span class="stat-label">Qty</span><span class="stat-value">15</span></div>
+                <div class="stat"><span class="stat-label">Risk</span><span class="stat-value red">₹2295.9</span></div>
+                <div class="stat"><span class="stat-label">R:R</span><span class="stat-value">3.1x</span></div>
+                <div class="stat"><span class="stat-label">Kelly f</span><span class="stat-value">0.2</span></div>
+                <div class="stat"><span class="stat-label">Confidence</span><span class="stat-value">6.3/10</span></div>
+            </div>
+            <div class="thesis">Catalyst: ROCE 39.0%; D/E 0.002. Risk: Main risk is failed follow-through after entry.</div>
+        </div></div>
+</div>
+
+<!-- HISTORY PAGE -->
+<div id="page-history" class="page">
+    <div class="section-title">Trade History — Last 30 Days</div>
+    <div class="table-wrap"><table><thead><tr><th>Date</th><th>Ticker</th><th>Setup</th><th>Entry</th><th>SL</th><th>Target</th><th>Qty</th><th>PnL R</th><th>Status</th></tr></thead><tbody>
+        <tr>
+            <td>2026-10-19</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3152.51</td>
+            <td class="red">₹2999.45</td>
+            <td class="green">₹3625.39</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-19</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2146.24</td>
+            <td class="red">₹2125.43</td>
+            <td class="green">₹2298.89</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-19</td>
+            <td><b>DIVISLAB</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹9135.36</td>
+            <td class="red">₹8945.17</td>
+            <td class="green">₹9685.53</td>
+            <td>5</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-16</td>
+            <td><b>HINDPETRO</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹348.15</td>
+            <td class="red">₹333.64</td>
+            <td class="green">₹381.7</td>
+            <td>143</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-16</td>
+            <td><b>HEROMOTOCO</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹5204.79</td>
+            <td class="red">₹5009.95</td>
+            <td class="green">₹5937.0</td>
+            <td>9</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-16</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2132.58</td>
+            <td class="red">₹2130.27</td>
+            <td class="green">₹2270.1</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-16</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3206.75</td>
+            <td class="red">₹3056.27</td>
+            <td class="green">₹3687.76</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-15</td>
+            <td><b>NYKAA</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹335.49</td>
+            <td class="red">₹333.37</td>
+            <td class="green">₹359.26</td>
+            <td>149</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-15</td>
+            <td><b>BOSCHLTD</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹44955.0</td>
+            <td class="red">₹44286.67</td>
+            <td class="green">₹49100.0</td>
+            <td>1</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-15</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3240.75</td>
+            <td class="red">₹3080.1</td>
+            <td class="green">₹3726.86</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-15</td>
+            <td><b>PAYTM</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1712.4</td>
+            <td class="red">₹1624.4</td>
+            <td class="green">₹1879.75</td>
+            <td>22</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-15</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹2160.0</td>
+            <td class="red">₹2147.43</td>
+            <td class="green">₹2313.28</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-12</td>
+            <td><b>KOTAKBANK</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹440.56</td>
+            <td class="red">₹431.97</td>
+            <td class="green">₹466.29</td>
+            <td>113</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-12</td>
+            <td><b>BOSCHLTD</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹43501.46</td>
+            <td class="red">₹40400.0</td>
+            <td class="green">₹49100.0</td>
+            <td>1</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-12</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2107.76</td>
+            <td class="red">₹2041.3</td>
+            <td class="green">₹2270.1</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-12</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3308.25</td>
+            <td class="red">₹3165.6</td>
+            <td class="green">₹3804.49</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-09</td>
+            <td><b>OFSS</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹10368.8</td>
+            <td class="red">₹9793.34</td>
+            <td class="green">₹11979.0</td>
+            <td>3</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-09</td>
+            <td><b>BOSCHLTD</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹43111.85</td>
+            <td class="red">₹40400.0</td>
+            <td class="green">₹49100.0</td>
+            <td>1</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-09</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3245.83</td>
+            <td class="red">₹3080.39</td>
+            <td class="green">₹3732.7</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-08</td>
+            <td><b>BOSCHLTD</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹44365.59</td>
+            <td class="red">₹42648.09</td>
+            <td class="green">₹49100.0</td>
+            <td>1</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-08</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2128.59</td>
+            <td class="red">₹2117.07</td>
+            <td class="green">₹2278.4</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-08</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3352.51</td>
+            <td class="red">₹3165.6</td>
+            <td class="green">₹3855.39</td>
+            <td>14</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-07</td>
+            <td><b>LUPIN</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹2027.27</td>
+            <td class="red">₹1995.2</td>
+            <td class="green">₹2135.0</td>
+            <td>24</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-07</td>
+            <td><b>COFORGE</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1847.85</td>
+            <td class="red">₹1762.2</td>
+            <td class="green">₹2021.2</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-07</td>
+            <td><b>PAYTM</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1692.31</td>
+            <td class="red">₹1624.4</td>
+            <td class="green">₹1855.5</td>
+            <td>29</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-07</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2145.54</td>
+            <td class="red">₹2058.33</td>
+            <td class="green">₹2310.82</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-07</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3300.07</td>
+            <td class="red">₹3165.6</td>
+            <td class="green">₹3795.08</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-06</td>
+            <td><b>BOSCHLTD</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹45434.52</td>
+            <td class="red">₹43501.12</td>
+            <td class="green">₹49100.0</td>
+            <td>1</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-06</td>
+            <td><b>BHEL</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹421.0</td>
+            <td class="red">₹408.15</td>
+            <td class="green">₹451.15</td>
+            <td>118</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-06</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3194.39</td>
+            <td class="red">₹3027.34</td>
+            <td class="green">₹3673.55</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-06</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2109.35</td>
+            <td class="red">₹2041.3</td>
+            <td class="green">₹2278.4</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-06</td>
+            <td><b>COFORGE</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1826.0</td>
+            <td class="red">₹1762.2</td>
+            <td class="green">₹2021.2</td>
+            <td>27</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-05</td>
+            <td><b>BOSCHLTD</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹45434.52</td>
+            <td class="red">₹43501.12</td>
+            <td class="green">₹49100.0</td>
+            <td>1</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-05</td>
+            <td><b>BHEL</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹421.0</td>
+            <td class="red">₹408.15</td>
+            <td class="green">₹451.15</td>
+            <td>118</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-05</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3194.39</td>
+            <td class="red">₹3027.34</td>
+            <td class="green">₹3673.55</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-05</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2109.35</td>
+            <td class="red">₹2041.3</td>
+            <td class="green">₹2278.4</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-05</td>
+            <td><b>COFORGE</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1826.0</td>
+            <td class="red">₹1762.2</td>
+            <td class="green">₹2021.2</td>
+            <td>27</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-02</td>
+            <td><b>BOSCHLTD</b></td>
+            <td><span class="badge-sm">value breakout</span></td>
+            <td>₹45434.52</td>
+            <td class="red">₹43501.12</td>
+            <td class="green">₹49100.0</td>
+            <td>1</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-02</td>
+            <td><b>BHEL</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹421.0</td>
+            <td class="red">₹408.15</td>
+            <td class="green">₹451.15</td>
+            <td>118</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-02</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3194.39</td>
+            <td class="red">₹3027.34</td>
+            <td class="green">₹3673.55</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-02</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2109.35</td>
+            <td class="red">₹2041.3</td>
+            <td class="green">₹2278.4</td>
+            <td>23</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-02</td>
+            <td><b>COFORGE</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1826.0</td>
+            <td class="red">₹1762.2</td>
+            <td class="green">₹2021.2</td>
+            <td>27</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-01</td>
+            <td><b>JINDALSTEL</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1134.9</td>
+            <td class="red">₹1121.6</td>
+            <td class="green">₹1224.1</td>
+            <td>44</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-01</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3290.5</td>
+            <td class="red">₹3165.6</td>
+            <td class="green">₹3784.07</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-01</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2183.53</td>
+            <td class="red">₹2167.87</td>
+            <td class="green">₹2324.08</td>
+            <td>22</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-10-01</td>
+            <td><b>PAYTM</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1676.32</td>
+            <td class="red">₹1594.2</td>
+            <td class="green">₹1855.5</td>
+            <td>24</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-30</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3222.3</td>
+            <td class="red">₹3059.94</td>
+            <td class="green">₹3705.64</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-30</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2182.03</td>
+            <td class="red">₹2177.87</td>
+            <td class="green">₹2321.43</td>
+            <td>22</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-30</td>
+            <td><b>PAYTM</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1681.32</td>
+            <td class="red">₹1594.2</td>
+            <td class="green">₹1855.5</td>
+            <td>22</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-29</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3253.71</td>
+            <td class="red">₹3095.37</td>
+            <td class="green">₹3741.77</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-29</td>
+            <td><b>SONACOMS</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹801.5</td>
+            <td class="red">₹773.4</td>
+            <td class="green">₹854.02</td>
+            <td>62</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-29</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2190.41</td>
+            <td class="red">₹2128.3</td>
+            <td class="green">₹2326.98</td>
+            <td>22</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-28</td>
+            <td><b>HINDZINC</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹587.18</td>
+            <td class="red">₹580.47</td>
+            <td class="green">₹675.26</td>
+            <td>85</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-28</td>
+            <td><b>GLENMARK</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹2377.62</td>
+            <td class="red">₹2306.3</td>
+            <td class="green">₹2535.08</td>
+            <td>21</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-28</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3314.93</td>
+            <td class="red">₹3165.6</td>
+            <td class="green">₹3812.17</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-28</td>
+            <td><b>PAYTM</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1672.33</td>
+            <td class="red">₹1594.2</td>
+            <td class="green">₹1855.5</td>
+            <td>25</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-25</td>
+            <td><b>RBLBANK</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹407.92</td>
+            <td class="red">₹395.95</td>
+            <td class="green">₹434.42</td>
+            <td>122</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-25</td>
+            <td><b>NAM-INDIA</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹1141.47</td>
+            <td class="red">₹1097.38</td>
+            <td class="green">₹1232.8</td>
+            <td>43</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-25</td>
+            <td><b>DIVISLAB</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹9592.4</td>
+            <td class="red">₹9416.33</td>
+            <td class="green">₹10081.42</td>
+            <td>5</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-25</td>
+            <td><b>HINDZINC</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹585.39</td>
+            <td class="red">₹563.55</td>
+            <td class="green">₹673.2</td>
+            <td>85</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-24</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2188.41</td>
+            <td class="red">₹2170.17</td>
+            <td class="green">₹2342.59</td>
+            <td>22</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-24</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3363.88</td>
+            <td class="red">₹3165.6</td>
+            <td class="green">₹3868.46</td>
+            <td>14</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-24</td>
+            <td><b>NAUKRI</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1297.0</td>
+            <td class="red">₹1291.63</td>
+            <td class="green">₹1419.96</td>
+            <td>38</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-23</td>
+            <td><b>GLENMARK</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹2451.52</td>
+            <td class="red">₹2424.8</td>
+            <td class="green">₹2581.8</td>
+            <td>20</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-23</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3252.81</td>
+            <td class="red">₹3153.67</td>
+            <td class="green">₹3740.73</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-23</td>
+            <td><b>NAUKRI</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1304.0</td>
+            <td class="red">₹1263.43</td>
+            <td class="green">₹1423.71</td>
+            <td>38</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-23</td>
+            <td><b>APLAPOLLO</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹2188.41</td>
+            <td class="red">₹2163.53</td>
+            <td class="green">₹2354.93</td>
+            <td>22</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-22</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3199.37</td>
+            <td class="red">₹3045.61</td>
+            <td class="green">₹3679.28</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-22</td>
+            <td><b>HINDZINC</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹590.02</td>
+            <td class="red">₹584.2</td>
+            <td class="green">₹678.52</td>
+            <td>84</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-22</td>
+            <td><b>GLENMARK</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹2448.32</td>
+            <td class="red">₹2413.67</td>
+            <td class="green">₹2583.6</td>
+            <td>20</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-22</td>
+            <td><b>NAUKRI</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹1296.4</td>
+            <td class="red">₹1240.27</td>
+            <td class="green">₹1419.3</td>
+            <td>35</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-21</td>
+            <td><b>MCX</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹3250.22</td>
+            <td class="red">₹3195.53</td>
+            <td class="green">₹3737.75</td>
+            <td>15</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-21</td>
+            <td><b>SONACOMS</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹800.41</td>
+            <td class="red">₹773.4</td>
+            <td class="green">₹855.03</td>
+            <td>62</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-21</td>
+            <td><b>PIDILITIND</b></td>
+            <td><span class="badge-sm">quality compounder</span></td>
+            <td>₹1567.38</td>
+            <td class="red">₹1537.1</td>
+            <td class="green">₹1641.73</td>
+            <td>31</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr>
+        <tr>
+            <td>2026-09-21</td>
+            <td><b>DIVISLAB</b></td>
+            <td><span class="badge-sm">momentum pullback</span></td>
+            <td>₹9365.62</td>
+            <td class="red">₹9182.0</td>
+            <td class="green">₹9875.17</td>
+            <td>5</td>
+            <td><span class="">—</span></td>
+            <td><span class="status-recommended">recommended</span></td>
+        </tr></tbody></table></div>
+</div>
+
+<!-- PERFORMANCE PAGE -->
+<div id="page-performance" class="page">
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-label">30d Win Rate</div>
+            <div class="metric-value red">0%</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">30d Total R</div>
+            <div class="metric-value green">+0.00R</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Avg R/Trade</div>
+            <div class="metric-value green">+0.00R</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Trades Closed</div>
+            <div class="metric-value accent">0</div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <div class="chart-title">Daily P&L (R)</div>
+            <canvas id="chartR" height="180"></canvas>
+        </div>
+        <div class="chart-card">
+            <div class="chart-title">Win Rate %</div>
+            <canvas id="chartWR" height="180"></canvas>
+        </div>
+    </div>
+
+    <div class="feedback-grid">
+        <div class="feedback-card">
+            <div class="section-title">Feedback Loop</div>
+            <div class="feedback-copy">No closed trades today, so there is nothing to judge yet.</div>
+            <div class="empty"><p>No setup-level feedback yet.</p></div>
+        </div>
+        <div class="feedback-card">
+            <div class="section-title">Next Cycle Nudges</div>
+            <div class="bullets"><div>Hold current setup mix and wait for fresh data.</div></div>
+            <div class="section-title" style="margin-top:1.5rem;">Setup Weights</div>
+            <div class="feedback-list"><div class="feedback-item"><strong>momentum pullback</strong><div class="feedback-meta">weight 0.67 | 1/1 wins</div></div><div class="feedback-item"><strong>value breakout</strong><div class="feedback-meta">weight 0.50 | 1/2 wins</div></div><div class="feedback-item"><strong>quality compounder</strong><div class="feedback-meta">weight 0.50 | 0/2 wins</div></div></div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showPage(id, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    el.classList.add('active');
+}
+
+const labels = ["2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08", "2026-10-09", "2026-10-12", "2026-10-13", "2026-10-14", "2026-10-15", "2026-10-16"];
+const rData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+const wrData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+
+const chartDefaults = {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+        x: { grid: { color: '#252535' }, ticks: { color: '#565f89', font: { size: 10 } } },
+        y: { grid: { color: '#252535' }, ticks: { color: '#565f89', font: { size: 10 } } }
+    }
+};
+
+new Chart(document.getElementById('chartR'), {
+    type: 'bar',
+    data: { labels, datasets: [{ data: rData, backgroundColor: rData.map(v => v >= 0 ? '#9ece6a55' : '#f7768e55'), borderColor: rData.map(v => v >= 0 ? '#9ece6a' : '#f7768e'), borderWidth: 1, borderRadius: 4 }] },
+    options: chartDefaults
+});
+
+new Chart(document.getElementById('chartWR'), {
+    type: 'line',
+    data: { labels, datasets: [{ data: wrData, borderColor: '#7aa2f7', backgroundColor: '#7aa2f715', fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#7aa2f7' }] },
+    options: { ...chartDefaults, scales: { ...chartDefaults.scales, y: { ...chartDefaults.scales.y, min: 0, max: 100 } } }
+});
+</script>
+</body>
+</html>
