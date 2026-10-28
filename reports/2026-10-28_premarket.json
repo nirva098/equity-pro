@@ -1,0 +1,1273 @@
+{
+    "run_id": "2026-10-28-premarket-e6b274ab",
+    "date": "2026-10-28",
+    "market_context": {
+        "regime": "risk_on",
+        "nifty_close": 22712.349609375,
+        "vix": 16.197500228881836,
+        "fii_net": 4240.390000000003,
+        "us_futures_change": 0.5969968881235083,
+        "nifty_5d_return": -0.4339944882494503,
+        "event_flag": "none",
+        "regime_narrative": ""
+    },
+    "candidates": [
+        {
+            "ticker": "APLAPOLLO.NS",
+            "setup": "momentum_pullback",
+            "score": 4.4994,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 16.9%",
+                "RSI 55.0",
+                "ADX 38.8"
+            ],
+            "ai_rank": 1,
+            "ai_decision": "trade",
+            "ai_conviction": 6.8,
+            "why_now": "3M return 16.9%; RSI 55.0",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "LAURUSLABS.NS",
+            "setup": "quality_compounder",
+            "score": 4.1379,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 19.5%",
+                "D/E 0.475",
+                "0.1% from 52w high"
+            ],
+            "ai_rank": 2,
+            "ai_decision": "trade",
+            "ai_conviction": 6.8,
+            "why_now": "ROCE 19.5%; D/E 0.475",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "BHARTIARTL.NS",
+            "setup": "value_breakout",
+            "score": 4.3733,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "FCF yield 6.4%",
+                "DCF upside 81.7%",
+                "above 200DMA"
+            ],
+            "ai_rank": 3,
+            "ai_decision": "trade",
+            "ai_conviction": 6.7,
+            "why_now": "FCF yield 6.4%; DCF upside 81.7%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "COFORGE.NS",
+            "setup": "quality_compounder",
+            "score": 4.1222,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 18.6%",
+                "D/E 0.076",
+                "1.2% from 52w high"
+            ],
+            "ai_rank": 4,
+            "ai_decision": "trade",
+            "ai_conviction": 6.5,
+            "why_now": "ROCE 18.6%; D/E 0.076",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "score": 4.2938,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 39.0%",
+                "D/E 0.002",
+                "8.5% from 52w high"
+            ],
+            "ai_rank": 5,
+            "ai_decision": "trade",
+            "ai_conviction": 6.3,
+            "why_now": "ROCE 39.0%; D/E 0.002",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "HINDPETRO.NS",
+            "setup": "value_breakout",
+            "score": 4.134,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "FCF yield 38.59%",
+                "DCF upside 996.1%",
+                "below 200DMA"
+            ],
+            "ai_rank": 6,
+            "ai_decision": "trade",
+            "ai_conviction": 6.2,
+            "why_now": "FCF yield 38.59%; DCF upside 996.1%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "BOSCHLTD.NS",
+            "setup": "value_breakout",
+            "score": 4.0907,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "FCF yield 1858800000000.0%",
+                "DCF upside 1197551665.5%",
+                "above 200DMA"
+            ],
+            "ai_rank": 7,
+            "ai_decision": "trade",
+            "ai_conviction": 6.1,
+            "why_now": "FCF yield 1858800000000.0%; DCF upside 1197551665.5%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "DIVISLAB.NS",
+            "setup": "momentum_pullback",
+            "score": 4.3078,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 21.3%",
+                "RSI 48.8",
+                "ADX 21.3"
+            ],
+            "ai_rank": 8,
+            "ai_decision": "trade",
+            "ai_conviction": 6.0,
+            "why_now": "3M return 21.3%; RSI 48.8",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half"
+        },
+        {
+            "ticker": "NYKAA.NS",
+            "setup": "quality_compounder",
+            "score": 4.0321,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 24.0%",
+                "D/E 0.861",
+                "2.9% from 52w high"
+            ],
+            "ai_rank": 9,
+            "ai_decision": "trade",
+            "ai_conviction": 6.0,
+            "why_now": "ROCE 24.0%; D/E 0.861",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full"
+        },
+        {
+            "ticker": "BSE.NS",
+            "setup": "quality_compounder",
+            "score": 4.0519,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 40.9%",
+                "D/E 0.0",
+                "22.6% from 52w high"
+            ],
+            "ai_rank": 10,
+            "ai_decision": "trade",
+            "ai_conviction": 5.7,
+            "why_now": "ROCE 40.9%; D/E 0.0",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half"
+        }
+    ],
+    "screened_candidates": [
+        {
+            "ticker": "APLAPOLLO.NS",
+            "setup": "momentum_pullback",
+            "score": 4.4994,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 16.9%",
+                "RSI 55.0",
+                "ADX 38.8"
+            ]
+        },
+        {
+            "ticker": "APLAPOLLO.NS",
+            "setup": "quality_compounder",
+            "score": 4.4769,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 28.0%",
+                "D/E 0.094",
+                "3.8% from 52w high"
+            ]
+        },
+        {
+            "ticker": "BHARTIARTL.NS",
+            "setup": "value_breakout",
+            "score": 4.3733,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "FCF yield 6.4%",
+                "DCF upside 81.7%",
+                "above 200DMA"
+            ]
+        },
+        {
+            "ticker": "DIVISLAB.NS",
+            "setup": "momentum_pullback",
+            "score": 4.3078,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 21.3%",
+                "RSI 48.8",
+                "ADX 21.3"
+            ]
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "score": 4.2938,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 39.0%",
+                "D/E 0.002",
+                "8.5% from 52w high"
+            ]
+        },
+        {
+            "ticker": "LAURUSLABS.NS",
+            "setup": "quality_compounder",
+            "score": 4.1379,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 19.5%",
+                "D/E 0.475",
+                "0.1% from 52w high"
+            ]
+        },
+        {
+            "ticker": "HINDPETRO.NS",
+            "setup": "value_breakout",
+            "score": 4.134,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "FCF yield 38.59%",
+                "DCF upside 996.1%",
+                "below 200DMA"
+            ]
+        },
+        {
+            "ticker": "COFORGE.NS",
+            "setup": "quality_compounder",
+            "score": 4.1222,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 18.6%",
+                "D/E 0.076",
+                "1.2% from 52w high"
+            ]
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "value_breakout",
+            "score": 4.0933,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "FCF yield 2962380000000.0%",
+                "DCF upside 27857565443.4%",
+                "above 200DMA"
+            ]
+        },
+        {
+            "ticker": "BOSCHLTD.NS",
+            "setup": "value_breakout",
+            "score": 4.0907,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "FCF yield 1858800000000.0%",
+                "DCF upside 1197551665.5%",
+                "above 200DMA"
+            ]
+        },
+        {
+            "ticker": "BSE.NS",
+            "setup": "quality_compounder",
+            "score": 4.0519,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 40.9%",
+                "D/E 0.0",
+                "22.6% from 52w high"
+            ]
+        },
+        {
+            "ticker": "NYKAA.NS",
+            "setup": "quality_compounder",
+            "score": 4.0321,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 24.0%",
+                "D/E 0.861",
+                "2.9% from 52w high"
+            ]
+        },
+        {
+            "ticker": "BOSCHLTD.NS",
+            "setup": "quality_compounder",
+            "score": 4.0314,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "ROCE 24.2%",
+                "D/E 0.008",
+                "8.8% from 52w high"
+            ]
+        },
+        {
+            "ticker": "TECHM.NS",
+            "setup": "quality_compounder",
+            "score": 4.0037,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 19.8%",
+                "D/E 0.074",
+                "2.3% from 52w high"
+            ]
+        },
+        {
+            "ticker": "LAURUSLABS.NS",
+            "setup": "momentum_pullback",
+            "score": 4.0009,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 20.2%",
+                "RSI 59.2",
+                "ADX 11.1"
+            ]
+        },
+        {
+            "ticker": "PERSISTENT.NS",
+            "setup": "quality_compounder",
+            "score": 3.9955,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 29.4%",
+                "D/E 0.061",
+                "11.3% from 52w high"
+            ]
+        },
+        {
+            "ticker": "OFSS.NS",
+            "setup": "quality_compounder",
+            "score": 3.9452,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "ROCE 43.2%",
+                "D/E 0.004",
+                "20.8% from 52w high"
+            ]
+        },
+        {
+            "ticker": "KOTAKBANK.NS",
+            "setup": "momentum_pullback",
+            "score": 3.9387,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return 13.6%",
+                "RSI 58.0",
+                "ADX 48.4"
+            ]
+        },
+        {
+            "ticker": "MANKIND.NS",
+            "setup": "momentum_pullback",
+            "score": 3.9386,
+            "expected_R": 2.5,
+            "hard_pass": false,
+            "quant_reasons": [
+                "3M return -2.8%",
+                "RSI 50.2",
+                "ADX 39.7"
+            ]
+        },
+        {
+            "ticker": "SONACOMS.NS",
+            "setup": "momentum_pullback",
+            "score": 3.9114,
+            "expected_R": 2.5,
+            "hard_pass": true,
+            "quant_reasons": [
+                "3M return 11.5%",
+                "RSI 57.5",
+                "ADX 25.0"
+            ]
+        }
+    ],
+    "research_briefs": {
+        "APLAPOLLO.NS": {
+            "ticker": "APLAPOLLO.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 16.9%; RSI 55.0; ADX 38.8",
+            "quant_evidence": [
+                "3M return 16.9%",
+                "RSI 55.0",
+                "ADX 38.8"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "BHARTIARTL.NS": {
+            "ticker": "BHARTIARTL.NS",
+            "setup": "value_breakout",
+            "bull_case": "FCF yield 6.4%; DCF upside 81.7%; above 200DMA",
+            "quant_evidence": [
+                "FCF yield 6.4%",
+                "DCF upside 81.7%",
+                "above 200DMA"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "DIVISLAB.NS": {
+            "ticker": "DIVISLAB.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 21.3%; RSI 48.8; ADX 21.3",
+            "quant_evidence": [
+                "3M return 21.3%",
+                "RSI 48.8",
+                "ADX 21.3"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "MCX.NS": {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 39.0%; D/E 0.002; 8.5% from 52w high",
+            "quant_evidence": [
+                "ROCE 39.0%",
+                "D/E 0.002",
+                "8.5% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "LAURUSLABS.NS": {
+            "ticker": "LAURUSLABS.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 19.5%; D/E 0.475; 0.1% from 52w high",
+            "quant_evidence": [
+                "ROCE 19.5%",
+                "D/E 0.475",
+                "0.1% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "HINDPETRO.NS": {
+            "ticker": "HINDPETRO.NS",
+            "setup": "value_breakout",
+            "bull_case": "FCF yield 38.59%; DCF upside 996.1%; below 200DMA",
+            "quant_evidence": [
+                "FCF yield 38.59%",
+                "DCF upside 996.1%",
+                "below 200DMA"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "COFORGE.NS": {
+            "ticker": "COFORGE.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 18.6%; D/E 0.076; 1.2% from 52w high",
+            "quant_evidence": [
+                "ROCE 18.6%",
+                "D/E 0.076",
+                "1.2% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "BOSCHLTD.NS": {
+            "ticker": "BOSCHLTD.NS",
+            "setup": "value_breakout",
+            "bull_case": "FCF yield 1858800000000.0%; DCF upside 1197551665.5%; above 200DMA",
+            "quant_evidence": [
+                "FCF yield 1858800000000.0%",
+                "DCF upside 1197551665.5%",
+                "above 200DMA"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "BSE.NS": {
+            "ticker": "BSE.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 40.9%; D/E 0.0; 22.6% from 52w high",
+            "quant_evidence": [
+                "ROCE 40.9%",
+                "D/E 0.0",
+                "22.6% from 52w high"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "NYKAA.NS": {
+            "ticker": "NYKAA.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 24.0%; D/E 0.861; 2.9% from 52w high",
+            "quant_evidence": [
+                "ROCE 24.0%",
+                "D/E 0.861",
+                "2.9% from 52w high"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "TECHM.NS": {
+            "ticker": "TECHM.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 19.8%; D/E 0.074; 2.3% from 52w high",
+            "quant_evidence": [
+                "ROCE 19.8%",
+                "D/E 0.074",
+                "2.3% from 52w high"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "PERSISTENT.NS": {
+            "ticker": "PERSISTENT.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 29.4%; D/E 0.061; 11.3% from 52w high",
+            "quant_evidence": [
+                "ROCE 29.4%",
+                "D/E 0.061",
+                "11.3% from 52w high"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "OFSS.NS": {
+            "ticker": "OFSS.NS",
+            "setup": "quality_compounder",
+            "bull_case": "ROCE 43.2%; D/E 0.004; 20.8% from 52w high",
+            "quant_evidence": [
+                "ROCE 43.2%",
+                "D/E 0.004",
+                "20.8% from 52w high"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "KOTAKBANK.NS": {
+            "ticker": "KOTAKBANK.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 13.6%; RSI 58.0; ADX 48.4",
+            "quant_evidence": [
+                "3M return 13.6%",
+                "RSI 58.0",
+                "ADX 48.4"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "MANKIND.NS": {
+            "ticker": "MANKIND.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return -2.8%; RSI 50.2; ADX 39.7",
+            "quant_evidence": [
+                "3M return -2.8%",
+                "RSI 50.2",
+                "ADX 39.7"
+            ],
+            "setup_fit_score": 6,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        },
+        "SONACOMS.NS": {
+            "ticker": "SONACOMS.NS",
+            "setup": "momentum_pullback",
+            "bull_case": "3M return 11.5%; RSI 57.5; ADX 25.0",
+            "quant_evidence": [
+                "3M return 11.5%",
+                "RSI 57.5",
+                "ADX 25.0"
+            ],
+            "setup_fit_score": 7,
+            "missing_data": [],
+            "must_verify": [
+                "fresh catalyst",
+                "liquidity and gap risk"
+            ]
+        }
+    },
+    "catalyst_checks": {
+        "APLAPOLLO.NS": {
+            "ticker": "APLAPOLLO.NS",
+            "catalyst_type": "technical",
+            "catalyst": "3M return 16.9%; RSI 55.0",
+            "catalyst_strength": 7,
+            "freshness": "technical",
+            "evidence": [
+                "3M return 16.9%",
+                "RSI 55.0",
+                "ADX 38.8"
+            ],
+            "source_urls": [
+                "https://simplywall.st/stocks/in/materials/nse-aplapollo/apl-apollo-tubes-shares/news/apl-apollo-tubes-limited-just-recorded-a-84-revenue-beat-her",
+                "https://www.google.com/finance/quote/APLAPOLLO:NSE",
+                "https://trendlyne.com/equity/91/APLAPOLLO/apl-apollo-tubes-ltd"
+            ]
+        },
+        "BHARTIARTL.NS": {
+            "ticker": "BHARTIARTL.NS",
+            "catalyst_type": "technical",
+            "catalyst": "FCF yield 6.4%; DCF upside 81.7%",
+            "catalyst_strength": 8,
+            "freshness": "technical",
+            "evidence": [
+                "FCF yield 6.4%",
+                "DCF upside 81.7%",
+                "above 200DMA"
+            ],
+            "source_urls": [
+                "https://www.equitypandit.com/technical-chart/bhartiartl",
+                "https://www.zeebiz.com/stock-market/bharti-airtel-ltd-stock-price-bhartiartl",
+                "https://munafasutra.com/nse/activeOptions/BHARTIARTL"
+            ]
+        },
+        "DIVISLAB.NS": {
+            "ticker": "DIVISLAB.NS",
+            "catalyst_type": "technical",
+            "catalyst": "3M return 21.3%; RSI 48.8",
+            "catalyst_strength": 5,
+            "freshness": "technical",
+            "evidence": [
+                "3M return 21.3%",
+                "RSI 48.8",
+                "ADX 21.3"
+            ],
+            "source_urls": [
+                "https://finance.yahoo.com/quote/DIVISLAB.NS/news",
+                "https://economictimes.indiatimes.com/divis-laboratories-ltd/stocks/companyid-3635.cms",
+                "https://www.tickertape.in/stocks/divis-laboratories-DIVI"
+            ]
+        },
+        "MCX.NS": {
+            "ticker": "MCX.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 39.0%; D/E 0.002",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 39.0%",
+                "D/E 0.002",
+                "8.5% from 52w high"
+            ],
+            "source_urls": [
+                "https://economictimes.indiatimes.com/multi-commodity-exchange-of-india-ltd/stocks/companyid-16571.cms",
+                "https://m.economictimes.com/markets/stocks/news/mcx-shares-jump-4-despite-overall-market-weakness-heres-why/articleshow/131005232.cms",
+                "https://www.nseindia.com/get-quote/equity/MCX/Multi-Commodity-Exchange-of-India-Limited"
+            ]
+        },
+        "LAURUSLABS.NS": {
+            "ticker": "LAURUSLABS.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 19.5%; D/E 0.475",
+            "catalyst_strength": 8,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 19.5%",
+                "D/E 0.475",
+                "0.1% from 52w high"
+            ],
+            "source_urls": [
+                "https://economictimes.indiatimes.com/laurus-labs-ltd/stocks/companyid-61545.cms",
+                "https://alfafinder.com/filings/laurus-labs",
+                "https://ca.finance.yahoo.com/quote/LAURUSLABS.NS"
+            ]
+        },
+        "HINDPETRO.NS": {
+            "ticker": "HINDPETRO.NS",
+            "catalyst_type": "technical",
+            "catalyst": "FCF yield 38.59%; DCF upside 996.1%",
+            "catalyst_strength": 7,
+            "freshness": "technical",
+            "evidence": [
+                "FCF yield 38.59%",
+                "DCF upside 996.1%",
+                "below 200DMA"
+            ],
+            "source_urls": [
+                "https://www.google.com/finance/quote/HINDPETRO:NSE",
+                "https://www.indmoney.com/stocks/hindustan-petroleum-corporation-ltd-share-price",
+                "https://uk.finance.yahoo.com/quote/HINDPETRO.NS"
+            ]
+        },
+        "COFORGE.NS": {
+            "ticker": "COFORGE.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 18.6%; D/E 0.076",
+            "catalyst_strength": 7,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 18.6%",
+                "D/E 0.076",
+                "1.2% from 52w high"
+            ],
+            "source_urls": [
+                "https://stocktwits.com/symbol/COFORGE.NSE/news",
+                "https://www.sahi.com/news/coforge-to-review-q1-results-on-july-1-as-order-intake-touches-950-cr-3468-PE1_COR",
+                "https://finance.yahoo.com/quote/COFORGE.NS"
+            ]
+        },
+        "BOSCHLTD.NS": {
+            "ticker": "BOSCHLTD.NS",
+            "catalyst_type": "technical",
+            "catalyst": "FCF yield 1858800000000.0%; DCF upside 1197551665.5%",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "FCF yield 1858800000000.0%",
+                "DCF upside 1197551665.5%",
+                "above 200DMA"
+            ],
+            "source_urls": [
+                "https://www.tickertape.in/stocks/bosch-BOSH",
+                "https://www.google.com/finance/quote/BOSCHLTD:NSE",
+                "https://finance.yahoo.com/quote/BOSCHLTD.NS"
+            ]
+        },
+        "BSE.NS": {
+            "ticker": "BSE.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 40.9%; D/E 0.0",
+            "catalyst_strength": 5,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 40.9%",
+                "D/E 0.0",
+                "22.6% from 52w high"
+            ],
+            "source_urls": [
+                "https://pulse.zerodha.com",
+                "https://www.motilaloswal.com/share-market",
+                "https://www.sebi.gov.in/curation/corporate_filings.html"
+            ]
+        },
+        "NYKAA.NS": {
+            "ticker": "NYKAA.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 24.0%; D/E 0.861",
+            "catalyst_strength": 6,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 24.0%",
+                "D/E 0.861",
+                "2.9% from 52w high"
+            ],
+            "source_urls": [
+                "https://www.youtube.com/watch?v=wYOOrh7nWk0",
+                "https://finance.yahoo.com/quote/NYKAA.NS",
+                "https://en.wikipedia.org/wiki/Nykaa"
+            ]
+        },
+        "TECHM.NS": {
+            "ticker": "TECHM.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 19.8%; D/E 0.074",
+            "catalyst_strength": 5,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 19.8%",
+                "D/E 0.074",
+                "2.3% from 52w high"
+            ],
+            "source_urls": [
+                "https://www.youtube.com/watch?v=HvBsZwNDHE4",
+                "https://nz.finance.yahoo.com/quote/TECHM.NS",
+                "https://www.hdfcsec.com/market/company/tech-mahindra-ltd-17215"
+            ]
+        },
+        "PERSISTENT.NS": {
+            "ticker": "PERSISTENT.NS",
+            "catalyst_type": "technical",
+            "catalyst": "ROCE 29.4%; D/E 0.061",
+            "catalyst_strength": 5,
+            "freshness": "technical",
+            "evidence": [
+                "ROCE 29.4%",
+                "D/E 0.061",
+                "11.3% from 52w high"
+            ],
+            "source_urls": [
+                "https://www.business-standard.com/markets/news/persistent-systems-share-prices-nse-bse-q2-results-pat-revenue-ebit-125101500183_1.html",
+                "https://www.persistent.com/media/press-releases/q4-fy26-results",
+                "https://www.persistent.com/media/press-releases/q3-fy26-results"
+            ]
+        }
+    },
+    "skeptic_reviews": {
+        "APLAPOLLO.NS": {
+            "ticker": "APLAPOLLO.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "BHARTIARTL.NS": {
+            "ticker": "BHARTIARTL.NS",
+            "bear_case": "RSI is overheated",
+            "red_flags": [
+                "RSI is overheated"
+            ],
+            "kill_trade": false,
+            "risk_penalty": 0.15,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "DIVISLAB.NS": {
+            "ticker": "DIVISLAB.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "MCX.NS": {
+            "ticker": "MCX.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "LAURUSLABS.NS": {
+            "ticker": "LAURUSLABS.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "HINDPETRO.NS": {
+            "ticker": "HINDPETRO.NS",
+            "bear_case": "far from 52-week high",
+            "red_flags": [
+                "far from 52-week high"
+            ],
+            "kill_trade": false,
+            "risk_penalty": 0.15,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "COFORGE.NS": {
+            "ticker": "COFORGE.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "BOSCHLTD.NS": {
+            "ticker": "BOSCHLTD.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "BSE.NS": {
+            "ticker": "BSE.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "NYKAA.NS": {
+            "ticker": "NYKAA.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "TECHM.NS": {
+            "ticker": "TECHM.NS",
+            "bear_case": "RSI is overheated; weak latest volume",
+            "red_flags": [
+                "RSI is overheated",
+                "weak latest volume"
+            ],
+            "kill_trade": false,
+            "risk_penalty": 0.3,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        },
+        "PERSISTENT.NS": {
+            "ticker": "PERSISTENT.NS",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "red_flags": [],
+            "kill_trade": false,
+            "risk_penalty": 0.0,
+            "invalidation": "Reject if price closes below stop or setup-specific momentum fails."
+        }
+    },
+    "final_rankings": [
+        {
+            "ticker": "APLAPOLLO.NS",
+            "setup": "momentum_pullback",
+            "decision": "trade",
+            "conviction": 6.8,
+            "why_now": "3M return 16.9%; RSI 55.0",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 1
+        },
+        {
+            "ticker": "LAURUSLABS.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.8,
+            "why_now": "ROCE 19.5%; D/E 0.475",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 2
+        },
+        {
+            "ticker": "BHARTIARTL.NS",
+            "setup": "value_breakout",
+            "decision": "trade",
+            "conviction": 6.7,
+            "why_now": "FCF yield 6.4%; DCF upside 81.7%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 3
+        },
+        {
+            "ticker": "COFORGE.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.5,
+            "why_now": "ROCE 18.6%; D/E 0.076",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 4
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.3,
+            "why_now": "ROCE 39.0%; D/E 0.002",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 5
+        },
+        {
+            "ticker": "HINDPETRO.NS",
+            "setup": "value_breakout",
+            "decision": "trade",
+            "conviction": 6.2,
+            "why_now": "FCF yield 38.59%; DCF upside 996.1%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 6
+        },
+        {
+            "ticker": "BOSCHLTD.NS",
+            "setup": "value_breakout",
+            "decision": "trade",
+            "conviction": 6.1,
+            "why_now": "FCF yield 1858800000000.0%; DCF upside 1197551665.5%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 7
+        },
+        {
+            "ticker": "DIVISLAB.NS",
+            "setup": "momentum_pullback",
+            "decision": "trade",
+            "conviction": 6.0,
+            "why_now": "3M return 21.3%; RSI 48.8",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half",
+            "rank": 8
+        },
+        {
+            "ticker": "NYKAA.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 6.0,
+            "why_now": "ROCE 24.0%; D/E 0.861",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "rank": 9
+        },
+        {
+            "ticker": "BSE.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 5.7,
+            "why_now": "ROCE 40.9%; D/E 0.0",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half",
+            "rank": 10
+        },
+        {
+            "ticker": "PERSISTENT.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 5.7,
+            "why_now": "ROCE 29.4%; D/E 0.061",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half",
+            "rank": 11
+        },
+        {
+            "ticker": "TECHM.NS",
+            "setup": "quality_compounder",
+            "decision": "trade",
+            "conviction": 5.1,
+            "why_now": "ROCE 19.8%; D/E 0.074",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "half",
+            "rank": 12
+        }
+    ],
+    "trades": [
+        {
+            "ticker": "APLAPOLLO.NS",
+            "setup": "momentum_pullback",
+            "entry": 2211.69,
+            "sl": 2128.3,
+            "target": 2376.87,
+            "target_source": "atr",
+            "qty": 22,
+            "risk_per_share": 83.39,
+            "total_risk": 1834.58,
+            "expected_R": 1.98,
+            "kelly_f": 0.2,
+            "score": 4.4994,
+            "news_sentiment": "neutral",
+            "quant_reasons": [
+                "3M return 16.9%",
+                "RSI 55.0",
+                "ADX 38.8"
+            ],
+            "hard_pass": false,
+            "ai_rank": 1,
+            "ai_conviction": 6.8,
+            "why_now": "3M return 16.9%; RSI 55.0",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "confidence": 6.8,
+            "catalyst": "3M return 16.9%; RSI 55.0",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry."
+        },
+        {
+            "ticker": "MCX.NS",
+            "setup": "quality_compounder",
+            "entry": 3177.24,
+            "sl": 3019.53,
+            "target": 3653.83,
+            "target_source": "atr",
+            "qty": 15,
+            "risk_per_share": 157.71,
+            "total_risk": 2365.65,
+            "expected_R": 3.02,
+            "kelly_f": 0.2,
+            "score": 4.2938,
+            "news_sentiment": "neutral",
+            "quant_reasons": [
+                "ROCE 39.0%",
+                "D/E 0.002",
+                "8.5% from 52w high"
+            ],
+            "hard_pass": true,
+            "ai_rank": 5,
+            "ai_conviction": 6.3,
+            "why_now": "ROCE 39.0%; D/E 0.002",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "confidence": 6.3,
+            "catalyst": "ROCE 39.0%; D/E 0.002",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry."
+        },
+        {
+            "ticker": "HINDPETRO.NS",
+            "setup": "value_breakout",
+            "entry": 353.65,
+            "sl": 340.1,
+            "target": 381.7,
+            "target_source": "swing_high",
+            "qty": 141,
+            "risk_per_share": 13.55,
+            "total_risk": 1910.55,
+            "expected_R": 2.07,
+            "kelly_f": 0.2,
+            "score": 4.134,
+            "news_sentiment": "neutral",
+            "quant_reasons": [
+                "FCF yield 38.59%",
+                "DCF upside 996.1%",
+                "below 200DMA"
+            ],
+            "hard_pass": false,
+            "ai_rank": 6,
+            "ai_conviction": 6.2,
+            "why_now": "FCF yield 38.59%; DCF upside 996.1%",
+            "why_this_over_others": "Ranked by quant score, catalyst strength, and skeptic penalty.",
+            "position_bias": "full",
+            "confidence": 6.2,
+            "catalyst": "FCF yield 38.59%; DCF upside 996.1%",
+            "catalyst_type": "technical",
+            "bear_case": "far from 52-week high"
+        }
+    ],
+    "thesis": {
+        "APLAPOLLO.NS": {
+            "thesis": "Catalyst: 3M return 16.9%; RSI 55.0. Risk: Main risk is failed follow-through after entry.",
+            "catalyst": "3M return 16.9%; RSI 55.0",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "confidence": 6.8
+        },
+        "MCX.NS": {
+            "thesis": "Catalyst: ROCE 39.0%; D/E 0.002. Risk: Main risk is failed follow-through after entry.",
+            "catalyst": "ROCE 39.0%; D/E 0.002",
+            "catalyst_type": "technical",
+            "bear_case": "Main risk is failed follow-through after entry.",
+            "confidence": 6.3
+        },
+        "HINDPETRO.NS": {
+            "thesis": "Catalyst: FCF yield 38.59%; DCF upside 996.1%. Risk: far from 52-week high",
+            "catalyst": "FCF yield 38.59%; DCF upside 996.1%",
+            "catalyst_type": "technical",
+            "bear_case": "far from 52-week high",
+            "confidence": 6.2
+        }
+    },
+    "execution_log": [
+        {
+            "ticker": "APLAPOLLO.NS",
+            "status": "filled",
+            "entry": 2211.69,
+            "qty": 22,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "MCX.NS",
+            "status": "filled",
+            "entry": 3177.24,
+            "qty": 15,
+            "time": "09:15:00"
+        },
+        {
+            "ticker": "HINDPETRO.NS",
+            "status": "filled",
+            "entry": 353.65,
+            "qty": 141,
+            "time": "09:15:00"
+        }
+    ],
+    "active_setups": [
+        "value_breakout",
+        "momentum_pullback",
+        "quality_compounder"
+    ],
+    "risk_modifier": 1.0
+}
